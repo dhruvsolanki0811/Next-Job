@@ -1,44 +1,20 @@
 import { db } from "@/lib/db";
 import { uploadFileFirebase } from "@/lib/firebase";
 import excludePassword from "@/utils/utils";
+import { organizationSchema } from "@/utils/zodValidationUtils";
 import { hash } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
-import * as z from "zod";
 
-const organizationSchema = z.object({
-  email: z
-    .string({ required_error: "Email is must" })
-    .email({ message: "Invalid email format" }),
-  password: z
-    .string({ required_error: "Password is must" })
-    .min(6, { message: "Password must be at least 6 characters long" }),
-  username: z
-    .string({ required_error: "Username is must" })
-    .min(4, { message: "Username must be at least 4 characters long" })
-    .max(20, { message: "Username must be at most 20 characters long" }),
-  name: z
-    .string({ required_error: "name is must" })
-    .min(2, { message: "Name must be at least 2 characters long" }),
-  location: z
-    .string({ required_error: "Location is must" })
-    .min(6, { message: "Location is must" }),
-  website: z.string().url({ message: "Invalid URL format" }).optional(),
-  overview: z
-    .string({ required_error: "Overview is must" })
-    .min(1, { message: "Overview is required" }),
-  foundedAt: z
-    .string({ required_error: "Founded is must" })
-    .min(1, { message: "Founded date is required" }),
-});
 
-export async function GET(req:NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const organizations=await db.organization.findMany()
-    const organizationsWithoutPassword = organizations.map(organization=>excludePassword(organization))
+    const organizations = await db.organization.findMany();
+    const organizationsWithoutPassword = organizations.map((organization) =>
+      excludePassword(organization)
+    );
 
-    return NextResponse.json({organizations:organizationsWithoutPassword})
+    return NextResponse.json({ organizations: organizationsWithoutPassword });
   } catch (err) {
-    
     return NextResponse.json({ message: err }, { status: 500 });
   }
 }
@@ -49,7 +25,6 @@ export async function POST(req: NextRequest) {
     const body = Object.fromEntries(formData);
 
     let parsedBody;
-    // let profiePic;
     const { profilePic } = body;
 
     parsedBody = await organizationSchema.parseAsync(body);
@@ -65,7 +40,7 @@ export async function POST(req: NextRequest) {
       foundedAt,
     } = parsedBody;
 
-    let pfp =
+    let pfp =profilePic &&
       profilePic instanceof File
         ? await uploadFileFirebase("organization", "profilepic", profilePic)
         : null;
@@ -106,9 +81,9 @@ export async function POST(req: NextRequest) {
         profilePic: pfp ?? null,
       },
     });
-    const { password: savedPassword, ...rest } = newUser;
+    const { password: savedPassword, ...restBody } = newUser;
     return NextResponse.json(
-      { message: "Organization Added", organization: rest },
+      { message: "Organization Added", organization: restBody },
       { status: 200 }
     );
   } catch (err) {
