@@ -1,3 +1,4 @@
+import { Rightbar } from "@/components/components";
 import React from "react";
 
 function NonFunctionRightBarLayout({
@@ -5,7 +6,14 @@ function NonFunctionRightBarLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <div className="content-wrapper w-[60%] h-[100vh] ">
+        {children}
+      </div>
+      <Rightbar></Rightbar>
+    </>
+  );
 }
 
 export default NonFunctionRightBarLayout;

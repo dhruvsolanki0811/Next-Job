@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./Providers";
+import { BottomBar, Leftbar } from "@/components/components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <div className="main-wrapper flex justify-center items-center ">
+          <div className="main-container flex w-[90VW]">
+            <Leftbar></Leftbar>
+            <Providers>{children}</Providers>
+          </div>
+        </div>
       </body>
     </html>
   );

@@ -39,7 +39,7 @@ useEffect(()=>{
 },[user?.user])
   return (
     <>
-      <div>
+      {/* <div>
         {user?.user?.email ? (
           <h2>Welcome, {username}!</h2>
         ) : (
@@ -68,7 +68,7 @@ useEffect(()=>{
             Logout
           </div>
         )}{" "}
-      </div>
+      </div> */}
     </>
   );
 }
