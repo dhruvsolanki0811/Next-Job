@@ -78,8 +78,6 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     if (err instanceof Error && err.name == "ZodError") {
-      // Handle ZodError
-
       return NextResponse.json(
         { error: err || "Unknown error" },
         { status: 400 }
