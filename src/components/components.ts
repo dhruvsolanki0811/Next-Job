@@ -1,8 +1,10 @@
 import BottomBar from "./BottomBar/BottomBar";
-import JobseekerList from "./JobseekerList/JobseekerList";
+import RightBarJobseekerList from "./RightBarJobseekerList/RightBarJobseekerList";
 import Leftbar from "./LeftBar/LeftBar";
 import Navbar from "./Navbar/Navbar";
-import OrganizationList from "./OrganizationList/OrganizationList";
+import RightBarOrganizationList from "./RightBarOrganizationList/RightBarOrganizationList";
 import Rightbar from "./RightBar/RightBar";
+import CompanyBox from "./CompanyBox/CompanyBox";
+import CompanyList from "./CompanyList/CompanyList";
 
-export {BottomBar,Leftbar,Navbar,Rightbar,OrganizationList,JobseekerList} 
+export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox} 

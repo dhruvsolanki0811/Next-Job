@@ -1,11 +1,11 @@
 import React from "react";
-import { JobseekerList, OrganizationList } from "../components";
+import { RightBarJobseekerList, RightBarOrganizationList } from "../components";
 
 function Rightbar() {
   return (
     <>
-      <div className="fav-section w-[20%] h-[100vh]  border-x-[1px] border-x-[solid] border-x-[#E1E4E8]">
-        <div className="top-section  flex justify-between  items-center p-5 gap-5 border-b-[1px] border-b-[solid] border-b-[#E1E4E8]">
+      <div className="fav-section max-md:hidden w-[20%] h-[100vh]  border-r-[1px] border-r-[solid] border-r-border-light">
+        <div className="top-section  flex justify-between  items-center px-5 gap-5 border-b-[1px] border-b-[solid] border-b-border-light h-[10vh] max-h-[10vh]">
           <div
             className=" cursor-pointer flex items-center text-[14px]"
           >
@@ -13,8 +13,8 @@ function Rightbar() {
           </div>
 
         </div>
-        <JobseekerList/>
-        <OrganizationList/>
+        <RightBarJobseekerList/>
+        <RightBarOrganizationList/>
       </div>
     </>
   );

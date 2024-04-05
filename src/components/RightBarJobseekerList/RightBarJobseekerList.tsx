@@ -1,53 +1,54 @@
 "use client";
-import { organizationPlaceHolder } from "@/assets/assets";
-import { useFetchAllOrganizations } from "@/hooks/useOrganizationData";
-import Image from "next/image";
 import React, { useState } from "react";
+import { jobseekerPlaceHolder } from "@/assets/assets";
+import { useFetchAllJobseekers } from "@/hooks/useJobseekerData";
+import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-function OrganizationList() {
+function RightBarJobseekerList() {
   const [randNum] = useState<number>(Math.random);
-  const { data: organizations } = useFetchAllOrganizations();
+
+  const { data: jobseekers } = useFetchAllJobseekers();
   return (
     <>
       <div className="people-rec-section  w-full flex flex-col mt-6 ">
         <div className="text-holder cursor-pointer flex justify-between items-center text-[14px] font-medium ms-3 me-3">
-          Organizations on JobCom
+          People on JobCom
           <FaArrowRightLong />
         </div>
         <div className="user-desc flex flex-col gap-[2px] w-full ps-2 pe-2 mt-1 ps-3">
-          {organizations ? (
-            organizations
+          {jobseekers ? (
+            [...jobseekers,...jobseekers,...jobseekers]
               .sort(function () {
                 return 0.5 - randNum;
               })
               .slice(0, 3)
 
-              .map((org: any, i) => {
+              .map((jobseeker: any, i) => {
                 return (
                   <div key={i}>
                     <div className="profile-pic-follow cursor-pointer mt-1 flex flex-between items-center">
                       <div className="profile-pic h-[2.3rem] w-[2.3rem] flex flex-between justify-center items-center  mt-2 overflow-hidden border-[1px] rounded-full">
-                        {org.profilePic ? (
+                        {jobseeker.profilePic ? (
                           <img
                             className=" object-fill  h-full w-full"
                             alt=""
-                            src={`${org.profilePic}`}
+                            src={`${jobseeker.profilePic}`}
                           ></img>
                         ) : (
                           <Image
-                            src={organizationPlaceHolder}
+                            src={jobseekerPlaceHolder}
                             alt=""
                             className=" object-contain  h-full w-full"
                           ></Image>
                         )}
                       </div>
                       <div className="people-username text-[13px] mt-2 ms-2">
-                        {org.name}
+                        {`${jobseeker.firstName} ${jobseeker.lastName}`}
                       </div>
                     </div>
                     <div className="people-desc truncate color-lgt-grey w-full text-[13px] mt-2 pe-2 mb-1">
-                      {org.overview}
+                      {jobseeker.description}
                     </div>
                   </div>
                 );
@@ -61,4 +62,4 @@ function OrganizationList() {
   );
 }
 
-export default OrganizationList;
+export default RightBarJobseekerList;
