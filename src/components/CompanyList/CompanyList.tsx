@@ -11,8 +11,8 @@ function CompanyList() {
         <>Loading</>
       ) : (
         organizations && (
-          <div className=" max-sm:h-[73vh] h-[83vh] flex gap-[20px] flex-wrap justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-2">
-           <> {[...organizations,...organizations,...organizations].map((organization) => (
+          <div className="max-xl:block  max-sm:h-[73vh] max-h-[83vh] flex gap-[20px]  flex-wrap items-start justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-5 max-xl:py-[0px]">
+           <> {[...organizations,...organizations,...organizations].slice(0,4).map((organization) => (
               <CompanyBox organization={organization}></CompanyBox>
             ))}</>
           </div>

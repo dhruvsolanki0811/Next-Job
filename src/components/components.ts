@@ -9,5 +9,6 @@ import CompanyList from "./CompanyList/CompanyList";
 import JobseekerBox from "./JobseekerBox/JobseekerBox";
 import DevIcon from "./Devicon/Devicon";
 import JobseekerList from "./JobseekerList/JobseekerList";
+import JobseekerRegistrationForm from "./JobseekerRegistrationForm.tsx/JobseekerRegistrationForm";
 
-export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox,JobseekerBox,DevIcon,JobseekerList} 
+export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox,JobseekerBox,DevIcon,JobseekerList,JobseekerRegistrationForm} 
