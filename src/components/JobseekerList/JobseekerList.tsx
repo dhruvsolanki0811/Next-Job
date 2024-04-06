@@ -11,8 +11,8 @@ function JobseekerList() {
         <>Loading</>
       ) : (
         jobseekers && (
-          <div className=" max-sm:h-[73vh] h-[83vh] flex gap-[18px] flex-wrap justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-2">
-           <> {[...jobseekers,...jobseekers,...jobseekers].map((jobseeker) => (
+          <div className="max-xl:block max-sm:h-[73vh] max-h-[83vh] flex gap-[18px] flex-wrap justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-5 max-xl:py-[0px]">
+           <> {[...jobseekers,...jobseekers,...jobseekers,...jobseekers].slice(0,3).map((jobseeker) => (
               <JobseekerBox jobseeker={jobseeker}></JobseekerBox>
             ))}</>
           </div>

@@ -3,7 +3,7 @@ import { BottomBar, CompanyList, Navbar } from "@/components/components";
 import { SearchSectionWrapper } from "@/components/ui/ui";
 import React from "react";
 
-function CompaniesListPage() {
+function page() {
   return (
     <>
       <Navbar>Companies</Navbar>
@@ -23,4 +23,4 @@ function CompaniesListPage() {
   );
 }
 
-export default CompaniesListPage;
+export default page;

@@ -11,17 +11,17 @@ export async function GET(req: NextRequest) {
     const organizations = await db.organization.findMany();
     const organizationsWithoutPassword = organizations.map((organization) =>
       excludePassword(organization)
-    );
-
-    return NextResponse.json({ organizations: organizationsWithoutPassword });
-  } catch (err) {
-    return NextResponse.json({ message: err }, { status: 500 });
-  }
+  );
+  
+  return NextResponse.json({ organizations: organizationsWithoutPassword });
+} catch (err) {
+  return NextResponse.json({ message: err }, { status: 500 });
+}
 }
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-
+    
     const body = Object.fromEntries(formData);
 
     let parsedBody;
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     if (existingEmail) {
       return NextResponse.json(
         { error: "Email Already Exists!" },
-        { status: 409 }
+        { status: 403 }
       );
     }
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     if (existingUsername) {
       return NextResponse.json(
         { error: "Username Already Exists!" },
-        { status: 409 }
+        { status: 403 }
       );
     }
 
@@ -92,10 +92,10 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(
         { error: err || "Unknown error" },
-        { status: 400 }
+        { status: 403 }
       );
     }
     console.log(err);
-    return NextResponse.json({ message: err }, { status: 500 });
+    return NextResponse.json({ error: err }, { status: 500 });
   }
 }

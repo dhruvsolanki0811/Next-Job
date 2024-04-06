@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     if (existingEmail) {
       return NextResponse.json(
         { error: "Email Already Exists!" },
-        { status: 409 }
+        { status: 403 }
       );
     }
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     if (existingUsername) {
       return NextResponse.json(
         { error: "Username Already Exists!" },
-        { status: 409 }
+        { status: 403 }
       );
     }
     const hashedPassword = await hash(parsedBody.password, 10);
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     if (err instanceof Error && err.name == "ZodError") {
       return NextResponse.json(
         { error: err || "Unknown error" },
-        { status: 400 }
+        { status: 403 }
       );
     }
     console.log(err);

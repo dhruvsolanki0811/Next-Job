@@ -6,7 +6,7 @@ import React from "react";
 function CompanyBox({ organization }: { organization: Organization }) {
   return (
     <>
-      <div className="max-xl:w-[100%] w-[45%]  border border-[#E1E4E8] py-[10px] px-[5px] rounded-lg  cursor-pointer flex flex-col  ps-3">
+      <div className="max-xl:my-[15px]  max-xl:w-[100%] w-[45%] h-[11rem] border border-[#E1E4E8] py-[10px] px-[5px] rounded-lg  cursor-pointer flex flex-col  ps-3">
         <div className="profile-pic  flex flex-between items-center h-[3rem] w-[3rem] mt-2 overflow-hidden border-[1px] rounded-full">
           {organization.profilePic ? (
             <img
