@@ -14,8 +14,8 @@ export interface Organization {
     id: number ;
     username: string;
     email: string;
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
     description: string;
     yearsOfExperience: number;
     phonenumber: number;

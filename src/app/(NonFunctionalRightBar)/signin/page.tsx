@@ -19,7 +19,6 @@ function LoginPage() {
     e.preventDefault();
     // Here you can add your logic to validate the username and password
     // For simplicity, let's assume validation is successful if both fields are non-empty
-    console.log(password);
 
     const signInData = await signIn("credentials", {
       email: username,
@@ -34,9 +33,6 @@ function LoginPage() {
       setUsername("");
     }
   };
-useEffect(()=>{
-    console.log(user?.user)
-},[user?.user])
   return (
     <>
       {/* <div>

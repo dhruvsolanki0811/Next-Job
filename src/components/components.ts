@@ -6,5 +6,8 @@ import RightBarOrganizationList from "./RightBarOrganizationList/RightBarOrganiz
 import Rightbar from "./RightBar/RightBar";
 import CompanyBox from "./CompanyBox/CompanyBox";
 import CompanyList from "./CompanyList/CompanyList";
+import JobseekerBox from "./JobseekerBox/JobseekerBox";
+import DevIcon from "./Devicon/Devicon";
+import JobseekerList from "./JobseekerList/JobseekerList";
 
-export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox} 
+export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox,JobseekerBox,DevIcon,JobseekerList} 

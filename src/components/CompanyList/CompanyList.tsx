@@ -8,7 +8,7 @@ function CompanyList() {
   return (
     <>
       {isLoading ? (
-        <></>
+        <>Loading</>
       ) : (
         organizations && (
           <div className=" max-sm:h-[73vh] h-[83vh] flex gap-[20px] flex-wrap justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-2">

@@ -8,11 +8,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   try {
     const jobSeekers = await db.jobSeeker.findMany();
-    const jobseelerWithoutPassword = jobSeekers.map((jobSeeker) =>
+    const jobseekerWithoutPassword = jobSeekers.map((jobSeeker) =>
       excludePassword(jobSeeker)
     );
 
-    return NextResponse.json({ jobSeekers: jobseelerWithoutPassword });
+    return NextResponse.json({ jobseekers: jobseekerWithoutPassword });
   } catch (err) {
     return NextResponse.json({ message: err }, { status: 500 });
   }
@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const body = Object.fromEntries(formData);
     const { resume, profilePic, skills, yearsOfExperience } = body;
-    console.log(typeof skills);
     parsedBody = await jobSeekerSchema.parseAsync(body);
     let uploadedProfilePic =
       profilePic && profilePic instanceof File

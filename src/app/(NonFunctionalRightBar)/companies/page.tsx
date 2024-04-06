@@ -19,7 +19,6 @@ function CompaniesListPage() {
         />
       </SearchSectionWrapper>
       <CompanyList></CompanyList>
-      <BottomBar></BottomBar>
     </>
   );
 }
