@@ -37,3 +37,14 @@ export const jobSeekerSchema = z.object({
   description: z.string({ required_error: "Description is required" }),
   phoneNumber: z.string({ required_error: "Phone number is required" }),
 });
+
+
+export const JobProfileSchema = z.object({
+  role: z.string({required_error:"Role is required"}),
+  requiredExperience: z.number({required_error:"Experience is required"}).int().positive(),
+  employeeType: z.string({required_error:"Employee Type is required"}),
+  salary: z.number().int().positive(),
+  jobDescription: z.string({required_error:"JD is required"}),
+  location: z.string({required_error:"Location is required"}),
+  skillsRequired: z.array(z.string(),{required_error:"Skills are required"}),
+});

@@ -4,7 +4,7 @@ export interface Organization {
   email: string;
   name: string;
   location: string;
-  website: string;
+  website?: string;
   overview: string;
   foundedAt: number;
   profilePic: string;
@@ -23,6 +23,32 @@ export interface JobSeeker {
   profilePic: string;
   resume: string | null;
 }
+
+
+export interface JobProfile {
+  id: number;
+  role: string;
+  requiredExperience: number;
+  employeeType: string;
+  salary: number;
+  location:string;
+  jobDescription: string;
+  skillsRequired: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  organizationId:number;
+  organization:{
+    username: string;
+    email: string;
+    name: string;
+    location: string;
+    website?: string;
+    overview: string;
+    foundedAt: number;
+    profilePic: string;
+  }
+};
+
 
 export interface ZodErrorResponse {
   error: {

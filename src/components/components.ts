@@ -14,6 +14,9 @@ import CompanyRegistrationForm from "./CompanyRegistrationForm/CompanyRegistrati
 import LoginBox from "./LoginBox/LoginBox";
 import JobseekerDetails from "./JobseekerDetails/JobseekerDetails";
 import CompanyDetails from "./CompanyDetails/CompanyDetails";
+import JobList from "./JobList/JobList";
+import JobCard from "./JobCard/JobCard";
+import JobDetails from "./JobDetails/JobDetails";
 
 export {
   BottomBar,
@@ -31,5 +34,8 @@ export {
   CompanyRegistrationForm,
   LoginBox,
   JobseekerDetails,
-  CompanyDetails
+  CompanyDetails,
+  JobList,
+  JobCard,
+  JobDetails
 };

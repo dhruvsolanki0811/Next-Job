@@ -16,7 +16,7 @@ function CompanyList() {
               {" "}
               {organizations
                 .map((organization) => (
-                  <CompanyBox organization={organization}></CompanyBox>
+                  <CompanyBox key={organization.id} organization={organization}></CompanyBox>
                 ))}
             </>
           </div>
