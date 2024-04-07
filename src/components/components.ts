@@ -10,5 +10,20 @@ import JobseekerBox from "./JobseekerBox/JobseekerBox";
 import DevIcon from "./Devicon/Devicon";
 import JobseekerList from "./JobseekerList/JobseekerList";
 import JobseekerRegistrationForm from "./JobseekerRegistrationForm.tsx/JobseekerRegistrationForm";
+import CompanyRegistrationForm from "./CompanyRegistrationForm/CompanyRegistrationForm";
 
-export {BottomBar,Leftbar,Navbar,Rightbar,RightBarOrganizationList,RightBarJobseekerList,CompanyList,CompanyBox,JobseekerBox,DevIcon,JobseekerList,JobseekerRegistrationForm} 
+export {
+  BottomBar,
+  Leftbar,
+  Navbar,
+  Rightbar,
+  RightBarOrganizationList,
+  RightBarJobseekerList,
+  CompanyList,
+  CompanyBox,
+  JobseekerBox,
+  DevIcon,
+  JobseekerList,
+  JobseekerRegistrationForm,
+  CompanyRegistrationForm
+};

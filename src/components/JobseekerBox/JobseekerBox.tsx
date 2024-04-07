@@ -1,13 +1,11 @@
 import { jobseekerPlaceHolder, organizationPlaceHolder } from "@/assets/assets";
-import {JobSeeker} from "@/types/type";
+import { JobSeeker } from "@/types/type";
 import Image from "next/image";
 import React from "react";
 import { DevIcon } from "../components";
 
 function JobseekerBox({ jobseeker }: { jobseeker: JobSeeker }) {
   return (
-
-
     <>
       <div className="max-xl:my-[15px] max-xl:w-full w-[45%]  h-[11.3rem] border border-[#E1E4E8] py-[10px] px-[5px] rounded-[10px] cursor-pointer flex flex-col     ps-3 pe-3">
         <div className="people-container flex justify-between items-center">
@@ -38,7 +36,6 @@ function JobseekerBox({ jobseeker }: { jobseeker: JobSeeker }) {
           </span>
         </div>
 
-        
         <div className="job-skills mt-2 flex gap-1 flex-wrap items-center w-full  text-black">
           {(jobseeker.skills.length < 3
             ? jobseeker.skills
