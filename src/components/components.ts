@@ -25,5 +25,5 @@ export {
   DevIcon,
   JobseekerList,
   JobseekerRegistrationForm,
-  CompanyRegistrationForm
+  CompanyRegistrationForm,
 };

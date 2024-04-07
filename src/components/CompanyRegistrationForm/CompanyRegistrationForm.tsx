@@ -39,21 +39,19 @@ const addOrganization = async (data: OrganizationFormData) => {
 
   // Send the request
   try {
-    const response=await axios.post(`/api/user/organization`, formData, {
+    const response = await axios.post(`/api/user/organization`, formData, {
       headers: {
         "Content-Type": `multipart/form-data`,
       },
     });
     toast.info("Welldone you are now part of Jobcom community");
-    return response.data
+    return response.data;
   } catch (error) {
     if (isAxiosError(error) && error.response?.status == 403) {
       if (error.response?.data.error.name == "ZodError") {
         let listOfZodIssues: ZodErrorResponse = error.response?.data;
 
-        listOfZodIssues.error.issues.map((issue) =>
-          toast.error(issue.message)
-        );
+        listOfZodIssues.error.issues.map((issue) => toast.error(issue.message));
         throw Error("Validation error");
       } else {
         toast.error(error.response?.data.error);
@@ -90,7 +88,7 @@ function CompanyRegistrationForm() {
   } = useMutation({
     mutationFn: addOrganization,
     onError(error, variables, context) {
-      console.log(error)
+      console.log(error);
     },
     onSuccess: async () => {
       console.log(error);

@@ -14,10 +14,9 @@ function CompanyList() {
           <div className="max-xl:block  max-sm:h-[73vh] max-h-[83vh] flex gap-[20px]  flex-wrap items-start justify-center  w-full overflow-x-hidden overflow-y-auto px-3 py-5 max-xl:py-[0px]">
             <>
               {" "}
-              {organizations
-                .map((organization) => (
-                  <CompanyBox organization={organization}></CompanyBox>
-                ))}
+              {organizations.map((organization) => (
+                <CompanyBox organization={organization}></CompanyBox>
+              ))}
             </>
           </div>
         )
