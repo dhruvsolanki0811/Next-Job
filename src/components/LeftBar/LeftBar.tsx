@@ -1,17 +1,15 @@
 "use client";
-import { jobseekerPlaceHolder } from "@/assets/assets";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
-import { CiUser } from "react-icons/ci";
-import { FaRegUser } from "react-icons/fa6";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
-import { IoIosLogOut, IoMdLogOut } from "react-icons/io";
+import { IoIosLogOut } from "react-icons/io";
 import { IoPeopleOutline } from "react-icons/io5";
-import { LuUser2 } from "react-icons/lu";
 import { PiHandshake, PiSuitcaseSimpleDuotone } from "react-icons/pi";
 
 function Leftbar() {
+  const router=useRouter()
   const { data: authUser } = useSession();
   return (
     <>
@@ -21,19 +19,19 @@ function Leftbar() {
             <div className="text-wrapper font-900 text-[16px]">JobCom</div>
           </div>
           <div className=" cursor-pointer flex flex-col w-full">
-            <div className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px]  font-medium	p-2 m-1">
+            <div onClick={()=>router.push(`/jobs`)}  className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px]  font-medium	p-2 m-1">
               <PiSuitcaseSimpleDuotone className=" cursor-pointer text-[20px]"></PiSuitcaseSimpleDuotone>
               Jobs
             </div>
-            <div className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1 ">
+            <div onClick={()=>router.push(`/jobseekers`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1 ">
               <IoPeopleOutline className=" cursor-pointer text-[20px]"></IoPeopleOutline>
               People
             </div>
-            <div className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1">
+            <div onClick={()=>router.push(`/companies`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1">
               <HiOutlineBuildingOffice className=" cursor-pointer text-[20px]"></HiOutlineBuildingOffice>
-              Company
+              Companies
             </div>
-            <div className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
+            <div onClick={()=>router.push(`/connections`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
               <PiHandshake className=" cursor-pointer text-[20px] "></PiHandshake>
               Connects
             </div>
@@ -61,7 +59,7 @@ function Leftbar() {
                 </div>
               </>
             ) : (
-              <div className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
+              <div onClick={()=>router.push(`/signin`)} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
                 <HiOutlineUser className=" cursor-pointer text-[20px] " />
                 Login{" "}
               </div>

@@ -1,17 +1,22 @@
 "use client";
 import { organizationPlaceHolder } from "@/assets/assets";
 import { useFetchAllOrganizations } from "@/hooks/useOrganizationData";
+import { Organization } from "@/types/type";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 function RightBarOrganizationList() {
+  const router=useRouter()
+  const {data:authData,status}=useSession()
   const [randNum] = useState<number>(Math.random);
   const { data: organizations } = useFetchAllOrganizations();
   return (
     <>
       <div className="people-rec-section  w-full flex flex-col mt-6 ">
-        <div className="text-holder cursor-pointer flex justify-between items-center text-[14px] font-medium ms-3 me-3">
+        <div onClick={()=>router.push('/companies')} className="text-holder cursor-pointer flex justify-between items-center text-[14px] font-medium ms-3 me-3">
           Organizations on JobCom
           <FaArrowRightLong />
         </div>
@@ -20,12 +25,17 @@ function RightBarOrganizationList() {
             organizations
               .sort(function () {
                 return 0.5 - randNum;
+              }).filter((jobseeker)=>{
+                if(status=='authenticated' && authData.user.username==jobseeker.username){
+                    return false
+                }
+                return true
               })
               .slice(0, 3)
 
-              .map((org: any, i) => {
+              .map((org: Organization) => {
                 return (
-                  <div key={i}>
+                  <div key={org.id} onClick={()=>router.push(`/companies/${org.username}`)}>
                     <div className="profile-pic-follow cursor-pointer mt-1 flex flex-between items-center">
                       <div className="profile-pic h-[2.3rem] w-[2.3rem] flex flex-between justify-center items-center  mt-2 overflow-hidden border-[1px] rounded-full">
                         {org.profilePic ? (

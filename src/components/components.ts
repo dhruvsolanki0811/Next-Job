@@ -12,6 +12,8 @@ import JobseekerList from "./JobseekerList/JobseekerList";
 import JobseekerRegistrationForm from "./JobseekerRegistrationForm.tsx/JobseekerRegistrationForm";
 import CompanyRegistrationForm from "./CompanyRegistrationForm/CompanyRegistrationForm";
 import LoginBox from "./LoginBox/LoginBox";
+import JobseekerDetails from "./JobseekerDetails/JobseekerDetails";
+import CompanyDetails from "./CompanyDetails/CompanyDetails";
 
 export {
   BottomBar,
@@ -27,5 +29,7 @@ export {
   JobseekerList,
   JobseekerRegistrationForm,
   CompanyRegistrationForm,
-  LoginBox
+  LoginBox,
+  JobseekerDetails,
+  CompanyDetails
 };

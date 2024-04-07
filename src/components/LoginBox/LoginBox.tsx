@@ -1,5 +1,6 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -10,7 +11,7 @@ function LoginBox() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   useEffect(() => {
     console.log(session, status);
   }, [status]);
@@ -41,7 +42,7 @@ function LoginBox() {
       password: password,
       type: userType,
       redirect: false,
-    }); 
+    });
     if (signInData?.error) {
       toast.error("Incorrect Details");
     } else {
@@ -114,9 +115,9 @@ function LoginBox() {
         <div
           onClick={() => {
             if (userType == "Jobseeker") {
-              //   navigate("/signup/jobs");
+                router.push("/signup/jobseekers");
             } else if (userType == "Organization") {
-              //   navigate("/signup/organization");
+              router.push("/signup/company");
             }
           }}
           className="signin-head text-[13px] cursor-pointer hover:text-[#13883e]"

@@ -13,3 +13,15 @@ export const useFetchAllOrganizations = () => {
 
   return useQuery({queryKey:["all-organizations"],queryFn: fetchAllOrganizations});
 };
+
+
+export const useFetchSingleOrganization = (username:string) => {
+  const fetchSingleOrganization = async (): Promise<Organization> => {
+    const response = await axios.get(
+      `/api/user/organization/${username}`
+    );
+    return response.data.organization;
+  };
+
+  return useQuery({queryKey:[`organization-${username}`],queryFn: fetchSingleOrganization});
+};

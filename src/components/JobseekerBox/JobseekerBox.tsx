@@ -1,13 +1,17 @@
+'use client'
+
 import { jobseekerPlaceHolder, organizationPlaceHolder } from "@/assets/assets";
 import { JobSeeker } from "@/types/type";
 import Image from "next/image";
 import React from "react";
 import { DevIcon } from "../components";
+import { useRouter } from "next/navigation";
 
 function JobseekerBox({ jobseeker }: { jobseeker: JobSeeker }) {
+  const router=useRouter()
   return (
     <>
-      <div className="max-xl:my-[15px] max-xl:w-full w-[45%]  h-[11.3rem] border border-[#E1E4E8] py-[10px] px-[5px] rounded-[10px] cursor-pointer flex flex-col     ps-3 pe-3">
+      <div onClick={()=>router.push(`/jobseekers/${jobseeker.username}`)} className="max-xl:my-[15px] max-xl:w-full w-[45%]  h-[11.3rem] border border-[#E1E4E8] py-[10px] px-[5px] rounded-[10px] cursor-pointer flex flex-col     ps-3 pe-3">
         <div className="people-container flex justify-between items-center">
           <div className="profile-pic  h-[3rem] w-[3rem]  overflow-hidden border-[1px] rounded-full flex justify-center items-center">
             {jobseeker.profilePic == null ? (
