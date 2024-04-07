@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./Providers";
-import {  Leftbar } from "@/components/components";
+import { Leftbar } from "@/components/components";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <link
+        <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
         />
       </head>
       <body className={inter.className}>
-        
         <div className="main-wrapper flex justify-center items-center ">
           <div className="main-container flex max-lg:w-[100vw] w-[90vw]">
             <Leftbar></Leftbar>

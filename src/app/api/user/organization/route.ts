@@ -5,23 +5,22 @@ import { organizationSchema } from "@/utils/zodValidationUtils";
 import { hash } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function GET(req: NextRequest) {
   try {
     const organizations = await db.organization.findMany();
     const organizationsWithoutPassword = organizations.map((organization) =>
       excludePassword(organization)
-  );
-  
-  return NextResponse.json({ organizations: organizationsWithoutPassword });
-} catch (err) {
-  return NextResponse.json({ message: err }, { status: 500 });
-}
+    );
+
+    return NextResponse.json({ organizations: organizationsWithoutPassword });
+  } catch (err) {
+    return NextResponse.json({ message: err }, { status: 500 });
+  }
 }
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-    
+
     const body = Object.fromEntries(formData);
 
     let parsedBody;
@@ -40,8 +39,8 @@ export async function POST(req: NextRequest) {
       foundedAt,
     } = parsedBody;
 
-    let pfp =profilePic &&
-      profilePic instanceof File
+    let pfp =
+      profilePic && profilePic instanceof File
         ? await uploadFileFirebase("organization", "profilepic", profilePic)
         : null;
     const existingEmail = await db.organization.findUnique({

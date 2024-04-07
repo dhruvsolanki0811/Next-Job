@@ -46,19 +46,21 @@ const createJobseeker = async (data: SeekerFormData) => {
         "Content-Type": `multipart/form-data`,
       },
     });
+    toast.info("Welldone you are now part of Jobcom community");
   } catch (error) {
     if (isAxiosError(error) && error.response?.status == 403) {
       if (error.response?.data.error.name == "ZodError") {
         let listOfZodIssues: ZodErrorResponse = error.response?.data;
 
-        listOfZodIssues.error.issues.filter((issue) =>
-          toast.error(issue.message)
-        );
+        listOfZodIssues.error.issues.map((issue) => toast.error(issue.message));
+        throw Error("Validation");
       } else {
         toast.error(error.response?.data.error);
+        throw Error(error.response?.data.error);
       }
     } else {
       toast.error("Internal Server Eror");
+      throw Error("Internal Server Eror");
     }
   }
 };
@@ -69,6 +71,9 @@ function JobseekerRegistrationForm() {
 
   const { mutate: createUser, isPending: loader } = useMutation({
     mutationFn: createJobseeker,
+    onError(error) {
+      console.log(error);
+    },
     onSuccess: async () => {
       setFormData({
         username: "",
@@ -82,8 +87,8 @@ function JobseekerRegistrationForm() {
         skills: [],
         profilePic: null,
         resume: null,
-      });  
-      toast.info("Welldone you are now part of Jobcom community");
+      });
+      setSelectedImagePreview(null);
       queryClient.invalidateQueries({ queryKey: ["all-jobseekers"] });
     },
   });
@@ -101,9 +106,15 @@ function JobseekerRegistrationForm() {
     profilePic: null,
     resume: null,
   });
+
+  const [selectedImagePreview, setSelectedImagePreview] = useState<
+    string | null
+  >(null);
+
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    console.log("okay");
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -126,35 +137,39 @@ function JobseekerRegistrationForm() {
       });
     }
   };
-  const handleRemoveImage = () => {
-    // Clear the selected image and preview
-    setFormData((prev) => {
-      return { ...prev, profilePic: null };
-    });
-    // Clear the input field
-    let imageInput = document.getElementById("imageInput");
-    if (imageInput) {
-      // Clear the input field
-      imageInput.nodeValue = "";
-    }
-  };
+
   const handleDelete = (index: number) => {
     setFormData((prevData) => ({
       ...prevData,
       skills: prevData.skills.filter((_, i) => i !== index),
     }));
   };
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file && file.type.startsWith("image/")) {
-      setFormData((prevData) => ({
-        ...prevData,
+      setFormData((prevState) => ({
+        ...prevState,
         profilePic: file,
       }));
+
+      const previewUrl = URL.createObjectURL(file);
+      setSelectedImagePreview(previewUrl);
     } else {
       toast.error("Please select an image file.");
-      event.target.value = ""; // Clear the input field
+      event.target.value = "";
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      profilePic: null,
+    }));
+    setSelectedImagePreview(null);
+    let imageInput = document.getElementById("imageInput") as HTMLInputElement;
+    if (imageInput) {
+      imageInput.value = "";
     }
   };
 
@@ -171,7 +186,7 @@ function JobseekerRegistrationForm() {
       event.target.value = ""; // Clear the input field
     }
   };
-  const handleSubmit = async(
+  const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
   ) => {
     e.preventDefault();
@@ -180,8 +195,8 @@ function JobseekerRegistrationForm() {
       return;
     }
 
-     createUser(formData);
-      };
+    createUser(formData);
+  };
   return (
     <>
       <form
@@ -266,7 +281,6 @@ function JobseekerRegistrationForm() {
           placeholder="Phone No"
           maxLength={10}
           min={10}
-          // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
           value={formData.phoneNumber}
           onChange={handleInputChange}
           className="w-full text-[14px] h-15 border-[2px] p-2 rounded "
@@ -300,7 +314,7 @@ function JobseekerRegistrationForm() {
 
         <div className="flex flex gap-2 justify-center items-center">
           <div className="flex ">
-            {formData.profilePic === null ? (
+            {selectedImagePreview === null ? (
               <Image
                 src={jobseekerPlaceHolder}
                 className="rounded-full border-grey border-[0.2px] border-solid h-[4rem] w-[4.5rem] object-fill"
@@ -310,7 +324,7 @@ function JobseekerRegistrationForm() {
               <>
                 {" "}
                 <img
-                  src={URL.createObjectURL(formData.profilePic)}
+                  src={selectedImagePreview?.toString()}
                   className="rounded-full h-[5rem] w-[5.5rem] object-contain"
                 />
                 <span
