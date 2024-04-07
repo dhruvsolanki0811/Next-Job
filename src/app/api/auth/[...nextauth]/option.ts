@@ -57,12 +57,13 @@ export const options: NextAuthOptions = {
         if (!passwordMatch) {
           return null;
         }
-
+        
         return {
           id: `${user.id}`,
           username: user.username,
           email: user.email,
           role: credentials.type,
+          image: user.profilePic??null,
         };
       },
     }),
@@ -74,6 +75,7 @@ export const options: NextAuthOptions = {
         token.username = user.username;
         token.role = user.role;
         token.id = user.id;
+        token.picture = user.image;
       }
       return token;
     },
@@ -83,6 +85,7 @@ export const options: NextAuthOptions = {
         session.user.username = token.username;
         session.user.role = token.role;
       }
+   
       return session;
     },
   },

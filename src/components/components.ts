@@ -11,6 +11,7 @@ import DevIcon from "./Devicon/Devicon";
 import JobseekerList from "./JobseekerList/JobseekerList";
 import JobseekerRegistrationForm from "./JobseekerRegistrationForm.tsx/JobseekerRegistrationForm";
 import CompanyRegistrationForm from "./CompanyRegistrationForm/CompanyRegistrationForm";
+import LoginBox from "./LoginBox/LoginBox";
 
 export {
   BottomBar,
@@ -25,5 +26,6 @@ export {
   DevIcon,
   JobseekerList,
   JobseekerRegistrationForm,
-  CompanyRegistrationForm
+  CompanyRegistrationForm,
+  LoginBox
 };

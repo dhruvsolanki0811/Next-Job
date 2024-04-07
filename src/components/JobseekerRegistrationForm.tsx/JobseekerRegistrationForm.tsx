@@ -114,7 +114,7 @@ function JobseekerRegistrationForm() {
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log("okay");
+    ("okay");
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -202,7 +202,7 @@ function JobseekerRegistrationForm() {
       <form
         method="POST"
         onSubmit={handleSubmit}
-        className="login-box gap-[8px] max-sm:h-full max-sm:w-full h-[80%] border-[1px] border-[#e1e4e8]  flex   flex-col  items-center w-[28rem] px-3 py-1 overflow-auto"
+        className="login-box   gap-[8px] max-sm:h-full max-sm:w-full h-[80%] border-[1px] border-[#e1e4e8]  flex   flex-col  items-center w-[28rem] px-3 py-1 overflow-auto"
       >
         <div className="text-[14px] font-500 py-3 border-b-[1px] w-full">
           Fill the below form to create a Profile as seeker
@@ -353,7 +353,7 @@ function JobseekerRegistrationForm() {
           <div className="flex flex-col justify-center items-center">
             <label
               htmlFor="imageInput"
-              className=" h-8 text-[14px] text-[#22C55E] hover:bg-green-500 hover:text-white px-2 py-2 text-[14px]   border-none rounded cursor-pointer select-none inline-block mt-4"
+              className="h-8 text-[14px] text-[#22C55E] hover:bg-green-500 hover:text-white px-2 py-2 text-[14px]   border-none rounded cursor-pointer select-none inline-block mt-4"
             >
               Choose a profile picture
             </label>
