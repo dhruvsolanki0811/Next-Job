@@ -1,11 +1,25 @@
+"use client";
 import { organizationPlaceHolder } from "@/assets/assets";
 import { JobProfile } from "@/types/type";
 import { formatTimestampToDDMonthYYYY } from "@/utils/utils";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { DevIcon } from "../components";
+import { useApplyJob, useFetchStatusOfApplication } from "@/hooks/useJobData";
+import { useSession } from "next-auth/react";
+import { MdDone, MdOutlineTransitEnterexit } from "react-icons/md";
 
 function JobDetails({ job }: { job: JobProfile }) {
+  const { data: authData } = useSession();
+  const { data: application, isLoading: statusLoading } =
+    useFetchStatusOfApplication(job.id);
+    const {mutate:applyJob,isPending}=useApplyJob(job.id)
+  const handleStatus = () => {
+    if (authData ) {
+      applyJob();
+    }
+  };
+
   return (
     <>
       <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -26,25 +40,26 @@ function JobDetails({ job }: { job: JobProfile }) {
                 />
               )}
             </div>
-            {/* {user.userType === "jobseeker" && (
-                    <div
-                      onClick={handleStatus}
-                      className="follow-btn flex gap-2 items-center  bg-white text-[15px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black"
-                    >
-                      {isLoading ||applyLoading? (
-                        "Loading"
-                      ) : applied["has_applied"] ? (
-                        <>
-                          Applied <MdDone className="text-[18px]" />
-                        </>
-                      ) : (
-                        <>
-                          Apply{" "}
-                          <MdOutlineTransitEnterexit className="text-[18px]" />
-                        </>
-                      )}
-                    </div>
-                  )} */}
+            {authData && authData.user.role == "Jobseeker" && (
+              <div
+                onClick={handleStatus}
+                className="follow-btn flex gap-2 items-center  bg-white text-[14px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+              >
+                {statusLoading ||isPending? (
+                  "Loading"
+                ) : application ? (
+                  <>
+                    {application.status.toString().charAt(0) +
+                      String(application.status).toLowerCase().slice(1)}{" "}
+                    <MdDone className="text-[18px]" />
+                  </>
+                ) : (
+                  <>
+                    Apply <MdOutlineTransitEnterexit className="text-[18px]" />
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="role-name mt-5 text-[18px]">{job?.role}</div>

@@ -9,7 +9,6 @@ type Params = {
 export async function GET(req: NextRequest, context: { params: Params }) {
   try {
     const status = String(context.params.status);
-    console.log(status == Status.PENDING.toString().toLowerCase());
     const session = await getServerSession(options);
     if (!session) {
       return NextResponse.json(
@@ -32,7 +31,7 @@ export async function GET(req: NextRequest, context: { params: Params }) {
         { status: 401 }
       );
     }
-    let jobs: JobProfile[];
+    let jobs: JobProfile[]=[];
     if (status == "applied") {
       jobs = await db.jobProfile.findMany({
         where: {
@@ -44,9 +43,21 @@ export async function GET(req: NextRequest, context: { params: Params }) {
           applications: {
             where: { jobSeekerId: jobseeker.id },
           },
-        },
+          organization: {
+            select: {
+              email: true,
+              username: true,
+              name: true,
+              location: true,
+              website: true,
+              overview: true,
+              foundedAt: true,
+              profilePic: true,
+            }
+        }}
+        
       });
-    } else {
+    } else if(status == "accepted"||status == "rejected"||status == "pending"  ){
       jobs = await db.jobProfile.findMany({
         where: {
           applications: {
@@ -57,14 +68,25 @@ export async function GET(req: NextRequest, context: { params: Params }) {
                   ? Status.ACCEPTED
                   : status == "rejected"
                   ? Status.REJECTED
-                  : Status.PENDING,
+                  :  Status.PENDING,
             },
           },
         },
         include: {
           applications: {
             where: { jobSeekerId: jobseeker.id },
-          },
+          } ,organization: {
+            select: {
+              email: true,
+              username: true,
+              name: true,
+              location: true,
+              website: true,
+              overview: true,
+              foundedAt: true,
+              profilePic: true,
+            }
+        }
         },
       });
     }

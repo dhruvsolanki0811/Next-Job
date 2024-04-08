@@ -8,7 +8,7 @@ type Params = {
 };
 export async function GET(req: NextRequest, context: { params: Params }) {
   try {
-    const jobId = context.params.id;
+    const jobId = parseInt((context.params.id).toString());
     const session = await getServerSession(options);
     if (!session) {
       return NextResponse.json(
@@ -50,6 +50,7 @@ export async function GET(req: NextRequest, context: { params: Params }) {
     });
     return NextResponse.json({ application: application }, { status: 200 });
   } catch (err) {
+    console.log(err )
     return NextResponse.json({ message: err }, { status: 500 });
   }
 }

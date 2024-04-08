@@ -43,6 +43,7 @@ function LoginBox() {
     if (signInData?.error) {
       toast.error("Incorrect Details");
     } else {
+      toast.success("Login Successful!")
       setPassword("");
       setEmail("");
     }

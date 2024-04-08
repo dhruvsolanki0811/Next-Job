@@ -37,6 +37,7 @@ export interface JobProfile {
   createdAt: Date;
   updatedAt: Date;
   organizationId:number;
+  applications?:Application[]
   organization:{
     username: string;
     email: string;
@@ -61,5 +62,23 @@ export interface ZodErrorResponse {
     }[];
     name: string;
   };
+}
+
+export enum Status {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+}
+
+// Define the Application model type
+export interface Application {
+  id: number;
+  jobProfile: JobProfile;
+  jobProfileId: number;
+  jobSeeker: JobSeeker;
+  jobSeekerId: number;
+  status: Status;
+  applicationDate: Date;
+  updatedAt: Date;
 }
 

@@ -11,9 +11,7 @@ import { PiHandshake, PiSuitcaseSimpleDuotone } from "react-icons/pi";
 function Leftbar() {
   const router=useRouter()
   const { data: authUser,status } = useSession();
-  useEffect(()=>{
-    console.log(authUser)
-  },[authUser])
+
   return (
     <>
       <>
