@@ -17,6 +17,7 @@ import CompanyDetails from "./CompanyDetails/CompanyDetails";
 import JobList from "./JobList/JobList";
 import JobCard from "./JobCard/JobCard";
 import JobDetails from "./JobDetails/JobDetails";
+import JobPostingForm from "./JobPostingForm/JobPostingForm";
 
 export {
   BottomBar,
@@ -37,5 +38,6 @@ export {
   CompanyDetails,
   JobList,
   JobCard,
-  JobDetails
+  JobDetails,
+  JobPostingForm
 };
