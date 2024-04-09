@@ -16,7 +16,7 @@ function JobseekerList() {
               {" "}
               {jobseekers
                 .map((jobseeker) => (
-                  <JobseekerBox jobseeker={jobseeker}></JobseekerBox>
+                  <JobseekerBox key={jobseeker.id} jobseeker={jobseeker}></JobseekerBox>
                 ))}
             </>
           </div>

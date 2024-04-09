@@ -202,7 +202,7 @@ function JobseekerRegistrationForm() {
       <form
         method="POST"
         onSubmit={handleSubmit}
-        className="login-box   gap-[8px] max-sm:h-full max-sm:w-full h-[80%] border-[1px] border-[#e1e4e8]  flex   flex-col  items-center w-[28rem] px-3 py-1 overflow-auto"
+        className="login-box max-sm:mt-0  mt-[3rem] gap-[8px] max-sm:h-full max-sm:w-full h-[80%] border-[1px] border-[#e1e4e8]  flex   flex-col  items-center w-[28rem] px-3 py-1 overflow-auto"
       >
         <div className="text-[14px] font-500 py-3 border-b-[1px] w-full">
           Fill the below form to create a Profile as seeker

@@ -1,17 +1,30 @@
-'use client'
+"use client";
 
 import { jobseekerPlaceHolder, organizationPlaceHolder } from "@/assets/assets";
-import { JobSeeker } from "@/types/type";
+import { JobSeeker, Status } from "@/types/type";
 import Image from "next/image";
 import React from "react";
 import { DevIcon } from "../components";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useHandleSeekerApplication } from "@/hooks/useJobData";
 
-function JobseekerBox({ jobseeker }: { jobseeker: JobSeeker }) {
-  const router=useRouter()
+function JobseekerBox({
+  jobseeker,
+  status,
+}: {
+  jobseeker: JobSeeker;
+  status?: Status;
+}) {
+  const router = useRouter();
+  const { data: authData } = useSession();
+  const { mutate: handleApplication, isPending } = useHandleSeekerApplication();
   return (
     <>
-      <div onClick={()=>router.push(`/jobseekers/${jobseeker.username}`)} className="max-xl:my-[15px] max-xl:w-full w-[45%]  h-[11.3rem] border border-[#E1E4E8] py-[10px] px-[5px] rounded-[10px] cursor-pointer flex flex-col     ps-3 pe-3">
+      <div
+        onClick={() => router.push(`/jobseekers/${jobseeker.username}`)}
+        className="max-xl:my-[15px] max-xl:w-full w-[45%]  min-h-[max-content] border border-[#E1E4E8] py-[10px] px-[5px] rounded-[10px] cursor-pointer flex flex-col     ps-3 pe-3"
+      >
         <div className="people-container flex justify-between items-center">
           <div className="profile-pic  h-[3rem] w-[3rem]  overflow-hidden border-[1px] rounded-full flex justify-center items-center">
             {jobseeker.profilePic == null ? (
@@ -62,6 +75,53 @@ function JobseekerBox({ jobseeker }: { jobseeker: JobSeeker }) {
             </div>
           )}
         </div>
+        {status && authData?.user.role == "Organization" && (
+          <div className="application-status text-[14px] mt-1 flex items-center gap-2">
+            <div className="status-job flex text-[13px] items-center   gap-2  mt-1   ">
+              <span
+                style={{
+                  background:
+                    status == Status.ACCEPTED
+                      ? "green"
+                      : status == Status.REJECTED
+                      ? "red"
+                      : "orange",
+                }}
+                className="rounded-full h-[5px] w-[5px]"
+              ></span>
+              {status}
+            </div>
+            {isPending?"Loading":status == Status.PENDING && (
+              <>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleApplication({
+                      applicationData:jobseeker.jobApplications[0],
+                      status:'accepted'})
+                  }}
+                  className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
+                >
+                  Accept
+                </div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleApplication({
+                      applicationData:jobseeker.jobApplications[0],
+                      status:'rejected'})
+                  
+
+                  }}
+                  className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
+                >
+                  Rejected
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="people-card-desc mt-2 color-lgt-grey w-full text-[12px] pe-2 text-three-line">
           {jobseeker.description}
         </div>

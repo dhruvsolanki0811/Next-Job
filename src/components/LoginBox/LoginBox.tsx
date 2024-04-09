@@ -1,7 +1,7 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { toast } from "react-toastify";
 
 function LoginBox() {
@@ -10,11 +10,8 @@ function LoginBox() {
   );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data: session, status } = useSession();
   const router = useRouter();
-  useEffect(() => {
-    console.log(session, status);
-  }, [status]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,6 +43,7 @@ function LoginBox() {
     if (signInData?.error) {
       toast.error("Incorrect Details");
     } else {
+      toast.success("Login Successful!")
       setPassword("");
       setEmail("");
     }

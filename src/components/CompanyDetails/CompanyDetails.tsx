@@ -1,3 +1,4 @@
+'use client'
 import { organizationPlaceHolder } from "@/assets/assets";
 import { useFetchSingleOrganization } from "@/hooks/useOrganizationData";
 import Image from "next/image";
@@ -10,7 +11,6 @@ import { TbWorld } from "react-icons/tb";
 function CompanyDetails({ username }: { username: string }) {
   const { data: organization, isLoading } =
     useFetchSingleOrganization(username);
-  console.log(organization, isLoading);
   return (
     <>
       {" "}

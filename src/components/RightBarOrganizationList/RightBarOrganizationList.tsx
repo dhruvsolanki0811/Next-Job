@@ -26,7 +26,7 @@ function RightBarOrganizationList() {
               .sort(function () {
                 return 0.5 - randNum;
               }).filter((jobseeker)=>{
-                if(status=='authenticated' && authData.user.username==jobseeker.username){
+                if(authData && authData.user.username==jobseeker.username){
                     return false
                 }
                 return true

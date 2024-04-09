@@ -68,7 +68,7 @@ function BottomBar() {
             Profile
             {showProfileDropdown && (
               <div className="dropdown-menu cursor-pointer  absolute mt-[-3rem]  bg-white text-xs border rounded-md p-2 w-15  flex flex-col justify-center text-[13px]">
-                {status!='authenticated' ? (
+                {!authData?.user.email ? (
                   <>
                     <p onClick={()=>router.push('/signin')}>Login</p>
                     <p onClick={()=>router.push('/signup/jobseeker')}>Jobseeker Signup</p>

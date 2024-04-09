@@ -1,3 +1,4 @@
+'use client'
 import { jobseekerPlaceHolder } from "@/assets/assets";
 import { useFetchSingleJobseekers } from "@/hooks/useJobseekerData";
 import Image from "next/image";
@@ -7,7 +8,6 @@ import { DevIcon } from "../components";
 
 function JobseekerDetails({ username }: { username: string }) {
   const { data: jobseeker, isLoading } = useFetchSingleJobseekers(username);
-  console.log(jobseeker, isLoading);
   return (
     <>
       {isLoading ? (
