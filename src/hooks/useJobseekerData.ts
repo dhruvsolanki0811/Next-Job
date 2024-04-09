@@ -2,6 +2,8 @@
 import { JobSeeker } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { appendToBaseUrl } from "./hooks";
 
 export const useFetchAllJobseekers = () => {
   const fetchAllJobseekers = async (): Promise<JobSeeker[]> => {
@@ -24,3 +26,5 @@ export const useFetchSingleJobseekers = (username:string) => {
 
   return useQuery({queryKey:[`jobseeker-${username}`],queryFn: fetchSingleJobseekers});
 };
+
+

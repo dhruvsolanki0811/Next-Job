@@ -7,6 +7,7 @@ import React from "react";
 import { DevIcon } from "../components";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { RiContactsLine } from "react-icons/ri";
 
 function JobCard({ job, status }: { job: JobProfile; status?: Status }) {
   const router = useRouter();
@@ -84,7 +85,11 @@ function JobCard({ job, status }: { job: JobProfile; status?: Status }) {
               </div>
             )}
           </div>
-          
+          {(authData?.user.role=='Organization') && (
+            <div className="applicant-btn flex text-[12px] items-center   gap-2  mt-2   ">
+              <div onClick={(e)=>{e.stopPropagation(); }} className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1">View Applicants<RiContactsLine /></div>
+            </div>
+          )}          
         </div>
       </div>
     </>

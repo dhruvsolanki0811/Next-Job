@@ -18,6 +18,9 @@ import JobList from "./JobList/JobList";
 import JobCard from "./JobCard/JobCard";
 import JobDetails from "./JobDetails/JobDetails";
 import JobPostingForm from "./JobPostingForm/JobPostingForm";
+import PostedJobsList from "./PostedJobsList/PostedJobsList";
+import AppliedJobList from "./AppliedJobList/AppliedJobList";
+import ApplicantList from "./ApplicantList/ApplicantList";
 
 export {
   BottomBar,
@@ -39,5 +42,8 @@ export {
   JobList,
   JobCard,
   JobDetails,
-  JobPostingForm
+  JobPostingForm,
+  PostedJobsList,
+  AppliedJobList,
+  ApplicantList
 };

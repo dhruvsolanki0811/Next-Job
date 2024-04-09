@@ -1,14 +1,13 @@
-"use client";
-import {AppliedJobList} from "@/components/components";
-import { JobList, Navbar } from "@/components/components";
-import React, { useEffect, useRef, useState } from "react";
-import { FaSort } from "react-icons/fa6";
+'use client'
+import { ApplicantList, Navbar } from '@/components/components';
+import React, { useEffect, useRef, useState } from 'react'
+import { FaSort } from 'react-icons/fa6';
 interface statusType{
     name:string,
     value:string
 }
-function page() {
-  const [isOpen, setIsOpen] = useState(false);
+function page({ params }: { params: { jobId: number }}) {
+    const [isOpen, setIsOpen] = useState(false);
     const[status,setStatus]=useState<statusType>({name:"All",value:"applied"})
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,10 +27,10 @@ function page() {
           document.removeEventListener("click", closeDropdown);
         };
       }, []);
-    
+       
     return (
     <>
-      <Navbar>
+    <Navbar>
         Jobs Applied
         <div className="relative">
           <div
@@ -72,10 +71,10 @@ function page() {
         </div>
       </Navbar>
       <div className="scrollable-content-wrapper max-sm:h-[80vh] h-[90vh] w-full ">
-        <AppliedJobList status={status.value}/>
-      </div>
+          <ApplicantList status={status.value} jobId={params.jobId}></ApplicantList>
+        </div>
     </>
-  );
+  )
 }
 
-export default page;
+export default page

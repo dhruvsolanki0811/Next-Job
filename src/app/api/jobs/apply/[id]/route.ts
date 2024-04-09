@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = {
-  id: Status;
+  id: number;
 };
 export async function POST(request: NextRequest, context: { params: Params }) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest, context: { params: Params }) {
         { status: 401 }
       );
     }
-    const jobId = parseInt(context.params.id);
+    const jobId = context.params.id;
     const job = await db.jobProfile.findUnique({
       where: { id: jobId },
     });

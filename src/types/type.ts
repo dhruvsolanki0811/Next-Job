@@ -22,6 +22,7 @@ export interface JobSeeker {
   skills: string[];
   profilePic: string;
   resume: string | null;
+  jobApplications:Application[]
 }
 
 

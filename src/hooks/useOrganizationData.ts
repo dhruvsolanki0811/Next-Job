@@ -1,7 +1,9 @@
 
-import { Organization } from "@/types/type";
+import { JobSeeker, Organization } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { appendToBaseUrl } from "./hooks";
+import { useSession } from "next-auth/react";
 
 export const useFetchAllOrganizations = () => {
   const fetchAllOrganizations = async (): Promise<Organization[]> => {
@@ -25,3 +27,25 @@ export const useFetchSingleOrganization = (username:string) => {
 
   return useQuery({queryKey:[`organization-${username}`],queryFn: fetchSingleOrganization});
 };
+
+
+export const useFetchApplicantsForJob = ({jobId,status}:{jobId:number,status:string}) => {
+  const{data:authData}=useSession()
+  async function fetchApplicantsForJob() {
+    try{
+    const response = await axios.get(
+      appendToBaseUrl(`jobs/applicants/${jobId}/${status}`)
+    );
+
+    return response.data.jobseekers as JobSeeker[];
+  }
+  catch(e){
+    console.log(e)
+  }
+  }
+  return useQuery({
+    queryKey: ["jobsseeker-applicants", authData?.user.id?authData?.user.id:"",jobId,status],
+    queryFn: fetchApplicantsForJob,
+  });
+};
+

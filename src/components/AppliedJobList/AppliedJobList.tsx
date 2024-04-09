@@ -8,7 +8,7 @@ function AppliedJobList({status}:{status:string}) {
     <>
       <div className="flex flex-col  h-full w-full overflow-x-none overflow-y-auto">
         {isLoading?"Loading":(jobs)&& jobs.map(job=>
-          <JobCard job={job} status={job.applications&&job.applications[0].status}></JobCard>
+          <JobCard job={job} key={job.id} status={job.applications&&job.applications[0].status}></JobCard>
         )}
       </div>
     </>
