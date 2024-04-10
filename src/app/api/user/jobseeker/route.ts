@@ -3,7 +3,10 @@ import { uploadFileFirebase } from "@/lib/firebase";
 import excludePassword from "@/utils/utils";
 import { jobSeekerSchema } from "@/utils/zodValidationUtils";
 import { hash } from "bcrypt";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
+
 
 export async function GET(req: NextRequest) {
   try {
