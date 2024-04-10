@@ -1,13 +1,61 @@
-'use client'
+"use client";
 import { jobseekerPlaceHolder } from "@/assets/assets";
 import { useFetchSingleJobseekers } from "@/hooks/useJobseekerData";
 import Image from "next/image";
 import React from "react";
 import { CiMail } from "react-icons/ci";
 import { DevIcon } from "../components";
+import {
+  useFetchConnectionStatus,
+  useHandleConnection,
+} from "@/hooks/useConnectionData";
+import { useSession } from "next-auth/react";
+import { ConnectionStatus } from "@/types/type";
 
 function JobseekerDetails({ username }: { username: string }) {
+  const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useFetchSingleJobseekers(username);
+  const { data: connectionData, isLoading: connectionLoading } =
+    useFetchConnectionStatus(jobseeker?.id);
+  console.log(
+    authData?.user.id,
+    authData?.user.role,
+    authData?.user.id && authData.user.role == "Jobseeker",
+    connectionData?.status == ConnectionStatus.FOLLOW
+  );
+  const { mutate: handleConnection, isPending } = useHandleConnection();
+  const handleConnectionRequest = (connectionRequest: ConnectionStatus) => {
+    console.log(
+      connectionRequest == ConnectionStatus.ACCEPTED
+        ? "remove"
+        : connectionRequest == ConnectionStatus.PENDING
+        ? connectionData?.followedById == authData?.user.id
+          ? "remove"
+          : connectionData?.followingId == authData?.user.id
+          ? "accept"
+          : null
+        : connectionRequest == ConnectionStatus.FOLLOW
+        ? "send"
+        : "send"
+    );
+    if (jobseeker?.id && connectionData) {
+      handleConnection({
+        userId: jobseeker.id,
+        action:
+          connectionRequest == ConnectionStatus.ACCEPTED
+            ? "remove"
+            : connectionRequest == ConnectionStatus.PENDING
+            ? connectionData.followedById == authData?.user.id
+              ? "remove"
+              : connectionData.followingId == authData?.user.id
+              ? "accept"
+              : null
+            : connectionRequest == ConnectionStatus.FOLLOW
+            ? "send"
+            : "send",
+      });
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -32,23 +80,48 @@ function JobseekerDetails({ username }: { username: string }) {
               </div>
               <div className="follow-username-sec flex items-center justify-center gap-2 mt-2">
                 <div className="header-username  ">@{jobseeker?.username}</div>
-                {/* {user.userId && user.userType == "jobseeker" && (
-                    <div
-                      onClick={handleRequest}
-                      className="follow-btn text-xs  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white]"
-                    >
-                      {rejecting || sending || statusLoading || isFetching
-                        ? "Loading"
-                        : status?.connection_status
-                        ? status.connection_status == "accepted"
-                          ? "Connected"
-                          : status.connection_status == "pending"
-                          ? "Pending"
-                          : status.connection_status
-                        : "Follow"}
-                    </div>
-                  )} */}
               </div>
+
+              {(authData?.user.id &&
+                authData.user.role == "Jobseeker" && jobseeker)&&
+                <div className="follow-username-sec flex items-center justify-center gap-2 mt-2">
+                  {
+                (connectionLoading || isPending ? (
+                  <div className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2">
+                    Loading
+                  </div>
+                ) : (
+                  connectionData && (
+                    <><div
+                      onClick={() =>
+                        handleConnectionRequest(connectionData.status)
+                      }
+                      className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
+                    >
+                      {/* {rejecting || sending || statusLoading || isFetching */}
+
+                      {connectionData.status == ConnectionStatus.ACCEPTED
+                        ? "Connected"
+                        : connectionData.status == ConnectionStatus.PENDING
+                        ? connectionData.followedById == authData.user.id
+                          ? "Pending"
+                          : connectionData.followingId == authData.user.id &&
+                            "Accept"
+                        : connectionData.status == ConnectionStatus.FOLLOW &&
+                          "Follow"}
+                    </div>
+{connectionData.followingId == authData.user.id &&                    <div
+                    onClick={() =>
+                      handleConnection({userId:jobseeker.id,action:'reject'})
+                    }
+                    className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
+                  >
+                    Reject</div>}</>
+                  )
+                ))}
+              </div>
+                }
+
               <div className="header-username font-medium text-[16px] mt-2">
                 {jobseeker.firstName} {jobseeker.lastName}
               </div>
@@ -57,7 +130,7 @@ function JobseekerDetails({ username }: { username: string }) {
                 {jobseeker?.email}
               </div>
               <div className="header-email text-[13px] color-lgt-grey mt-3 flex items-center gap-1 justify-center">
-                Professional Experience {" "}
+                Professional Experience{" "}
                 {jobseeker?.yearsOfExperience === 0
                   ? ": Fresher"
                   : `of ${jobseeker?.yearsOfExperience} years`}

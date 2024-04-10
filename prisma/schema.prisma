@@ -45,6 +45,9 @@ model JobSeeker {
   jobApplications Application[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  followedBy Connections[] @relation("followedBy")
+  following  Connections[] @relation("following")
+
 }
 
 model JobProfile {
@@ -78,4 +81,23 @@ model Application {
   status            Status @default(PENDING)
   applicationDate   DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
+  @@unique([jobProfileId, jobSeekerId])
 }
+
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+}
+
+model Connections {
+  followedBy   JobSeeker @relation("followedBy", fields: [followedById], references: [id])
+  followedById Int
+  following    JobSeeker @relation("following", fields: [followingId], references: [id])
+  followingId  Int
+  status ConnectionStatus @default(PENDING)        
+  createdAt   DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@id([followingId, followedById])
+}
+

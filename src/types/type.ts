@@ -83,3 +83,19 @@ export interface Application {
   updatedAt: Date;
 }
 
+export enum ConnectionStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  FOLLOW='FOLLOW'
+}
+
+export interface Connection  {
+  id: number;
+  followedBy: JobSeeker; // Assuming JobSeeker type is defined elsewhere
+  followedById: number;
+  following: JobSeeker; // Assuming JobSeeker type is defined elsewhere
+  followingId: number;
+  status: ConnectionStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
