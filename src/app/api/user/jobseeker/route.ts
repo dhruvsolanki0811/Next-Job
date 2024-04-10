@@ -5,9 +5,48 @@ import { jobSeekerSchema } from "@/utils/zodValidationUtils";
 import { hash } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const jobSeekers = await db.jobSeeker.findMany();
+    const url = new URL(req.url);
+    const search = url.searchParams.get("search");
+
+    const jobSeekers = await db.jobSeeker.findMany({
+      where: !search
+        ? {}
+        : {
+            OR: [{
+              username: {
+                contains: search,
+                mode:'insensitive'
+              },
+            },
+              {
+                firstName: {
+                  contains: search,
+                  mode:'insensitive'
+
+                },
+              },
+              {
+                lastName: {
+                  contains: search,
+                  mode:'insensitive'
+
+                },
+              },
+              {
+                AND: [
+                  { firstName: { contains: search.split(" ")[0],
+                  mode:'insensitive'
+                  } },
+                  { lastName: { contains: search.split(" ")[1] ,
+                  mode:'insensitive'
+                  } },
+                ],
+              },
+            ],
+          },
+    });
     const jobseekerWithoutPassword = jobSeekers.map((jobSeeker) =>
       excludePassword(jobSeeker)
     );

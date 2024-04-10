@@ -13,9 +13,9 @@ function JobDetails({ job }: { job: JobProfile }) {
   const { data: authData } = useSession();
   const { data: application, isLoading: statusLoading } =
     useFetchStatusOfApplication(job.id);
-    const {mutate:applyJob,isPending}=useApplyJob(job.id)
+  const { mutate: applyJob, isPending } = useApplyJob(job.id);
   const handleStatus = () => {
-    if (authData ) {
+    if (authData) {
       applyJob();
     }
   };
@@ -40,26 +40,30 @@ function JobDetails({ job }: { job: JobProfile }) {
                 />
               )}
             </div>
-            {authData && authData.user.role == "Jobseeker" && (
-              <div
-                onClick={handleStatus}
-                className="follow-btn flex gap-2 items-center  bg-white text-[14px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black"
-              >
-                {statusLoading ||isPending? (
-                  "Loading"
-                ) : application ? (
-                  <>
+            {authData &&
+              authData.user.role == "Jobseeker" &&
+              (statusLoading || isPending ? (
+                "Loading"
+              ) : application ? (
+                <>
+                  <div className="follow-btn flex gap-2 items-center  bg-white text-[14px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black">
                     {application.status.toString().charAt(0) +
                       String(application.status).toLowerCase().slice(1)}{" "}
                     <MdDone className="text-[18px]" />
-                  </>
-                ) : (
-                  <>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    onClick={() => {
+                      handleStatus();
+                    }}
+                    className="follow-btn flex gap-2 items-center  bg-white text-[14px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+                  >
                     Apply <MdOutlineTransitEnterexit className="text-[18px]" />
-                  </>
-                )}
-              </div>
-            )}
+                  </div>
+                </>
+              ))}
           </div>
 
           <div className="role-name mt-5 text-[18px]">{job?.role}</div>

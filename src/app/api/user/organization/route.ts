@@ -7,7 +7,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const organizations = await db.organization.findMany();
+    const url = new URL(req.url);
+    const search = url.searchParams.get("search");
+
+    const organizations = await db.organization.findMany({
+      where: !search
+        ? {}
+        : {
+            OR: [
+              {
+                username: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
+    });
     const organizationsWithoutPassword = organizations.map((organization) =>
       excludePassword(organization)
     );

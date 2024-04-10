@@ -22,6 +22,7 @@ import PostedJobsList from "./PostedJobsList/PostedJobsList";
 import AppliedJobList from "./AppliedJobList/AppliedJobList";
 import ApplicantList from "./ApplicantList/ApplicantList";
 import ConnectionsList from "./ConnectionsList/ConnectionsList";
+import FilterForm from "./FilterForm/FilterForm";
 
 export {
   BottomBar,
@@ -47,5 +48,6 @@ export {
   PostedJobsList,
   AppliedJobList,
   ApplicantList,
-  ConnectionsList
+  ConnectionsList,
+  FilterForm
 };

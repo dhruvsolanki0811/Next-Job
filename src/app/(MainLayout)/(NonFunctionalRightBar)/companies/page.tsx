@@ -1,9 +1,30 @@
-import CompanyBox from "@/components/CompanyBox/CompanyBox";
-import { BottomBar, CompanyList, Navbar } from "@/components/components";
+'use client'
+import {  CompanyList, Navbar } from "@/components/components";
 import { SearchSectionWrapper } from "@/components/ui/ui";
-import React from "react";
+import { useFilterStore } from "@/store/filterStore";
+import React, { ChangeEvent, useEffect } from "react";
 
 function page() {
+  const { filters, setFilter } = useFilterStore();
+  useEffect(() => {
+    return () => {
+      setFilter({
+        search: "",
+        min_requiredExperience: 0,
+        min_salary: 0,
+        location: "",
+        sort: "",
+      });
+    };
+  }, []);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFilter({
+      ...filters,
+      search:value
+    })
+
+  }
   return (
     <>
       <Navbar>Companies</Navbar>
@@ -12,8 +33,8 @@ function page() {
           type="text"
           placeholder="Search"
           className="search-box"
-          // value={search}
-          // onChange={handleSearchInput}
+          value={filters.search}
+          onChange={handleInputChange}
           // onChange={handleSearchInput}
           // onKeyDown={handleEnter}
         />

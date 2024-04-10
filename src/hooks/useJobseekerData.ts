@@ -4,11 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { appendToBaseUrl } from "./hooks";
+import { useFilterStore } from "@/store/filterStore";
 
 export const useFetchAllJobseekers = () => {
-  const fetchAllJobseekers = async (): Promise<JobSeeker[]> => {
+  const {filters}=useFilterStore()
+    const fetchAllJobseekers = async (): Promise<JobSeeker[]> => {
     const response = await axios.get(
-      `/api/user/jobseeker`
+      `/api/user/jobseeker${filters.search?`?search=${filters.search}`:''}`
     );
     return response.data.jobseekers;
   };

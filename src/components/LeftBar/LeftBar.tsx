@@ -3,6 +3,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
 import { IoIosLogOut } from "react-icons/io";
 import { IoPeopleOutline } from "react-icons/io5";
@@ -20,29 +21,40 @@ function Leftbar() {
             <div className="text-wrapper font-900 text-[16px]">JobCom</div>
           </div>
           <div className=" cursor-pointer flex flex-col w-full">
-            <div onClick={()=>router.push(`/jobs`)}  className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px]  font-medium	p-2 m-1">
-              <PiSuitcaseSimpleDuotone className=" cursor-pointer text-[20px]"></PiSuitcaseSimpleDuotone>
+            
+            {!authUser || (authUser.user.role=='Jobseeker' ) ?
+            <div onClick={()=>router.push(`/jobslist`)}  className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-[3px] text-[16px]  font-medium	px-[3px] py-2 m-1">
+              <PiSuitcaseSimpleDuotone className=" cursor-pointer text-[19px] "></PiSuitcaseSimpleDuotone>
               Jobs
-            </div>
-            <div onClick={()=>router.push(`/jobseekers`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1 ">
-              <IoPeopleOutline className=" cursor-pointer text-[20px]"></IoPeopleOutline>
+            </div>:
+            <div onClick={()=>router.push(`/companies/postedjobs`)}  className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-[3px] text-[16px]  font-medium	px-[3px] py-2 m-1">
+            <PiSuitcaseSimpleDuotone className=" cursor-pointer text-[19px]"></PiSuitcaseSimpleDuotone>
+              PostedJobs
+          </div>
+            }
+            <div onClick={()=>router.push(`/jobseekers`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1 ">
+              <IoPeopleOutline className=" cursor-pointer text-[19px]"></IoPeopleOutline>
               People
             </div>
-            <div onClick={()=>router.push(`/companies`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-2 text-[16px] font-medium p-2 m-1">
-              <HiOutlineBuildingOffice className=" cursor-pointer text-[20px]"></HiOutlineBuildingOffice>
+            <div onClick={()=>router.push(`/companies`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500 flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+              <HiOutlineBuildingOffice className=" cursor-pointer text-[19px]"></HiOutlineBuildingOffice>
               Companies
             </div>
-            <div onClick={()=>router.push(`/connections`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
-              <PiHandshake className=" cursor-pointer text-[20px] "></PiHandshake>
+            {(authUser && authUser.user.role=='Jobseeker')&& <div onClick={()=>router.push(`/connections`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+              <PiHandshake className=" cursor-pointer text-[19px] "></PiHandshake>
               Connects
-            </div>
-
+            </div>}
+            {(authUser && authUser?.user.role== "Organization") &&(
+            <div onClick={()=>router.push(`/companies/postedjobs`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+              <AiOutlineAppstoreAdd className="nav-items-logo"></AiOutlineAppstoreAdd>
+              Post Job
+            </div>)}
             {status=='loading'?
             <></>
             :authUser ? (
               <>
-                <div className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
-                  <div className="profile-pic-container h-[20px] w-[20px] relative">
+                <div className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1 	truncate">
+                  <div className="profile-pic-container h-[20px] min-w-[20px] relative">
                     {authUser.user?.image ? (
                       <Image
                         alt=""
@@ -51,19 +63,19 @@ function Leftbar() {
                         src={authUser.user?.image}
                       ></Image>
                     ) : (
-                      <HiOutlineUser className=" cursor-pointer text-[20px] " />
+                      <HiOutlineUser className=" cursor-pointer text-[19px] " />
                     )}
                   </div>
-                  Profile
+                    @{authUser.user.username}
                 </div>
-                <div onClick={()=>signOut()} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
-                  <IoIosLogOut className=" cursor-pointer text-[20px] " />
+                <div onClick={()=>signOut()} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+                  <IoIosLogOut className=" cursor-pointer text-[19px] " />
                   Logout
                 </div>
               </>
             ) : (
-              <div onClick={()=>router.push(`/signin`)} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-2 text-[16px] font-medium p-2 m-1">
-                <HiOutlineUser className=" cursor-pointer text-[20px] " />
+              <div onClick={()=>router.push(`/signin`)} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+                <HiOutlineUser className=" cursor-pointer text-[19px] " />
                 Login{" "}
               </div>
             )}

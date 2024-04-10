@@ -4,11 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { appendToBaseUrl } from "./hooks";
 import { useSession } from "next-auth/react";
+import { useFilterStore } from "@/store/filterStore";
 
 export const useFetchAllOrganizations = () => {
+  const {filters}=useFilterStore()
+
   const fetchAllOrganizations = async (): Promise<Organization[]> => {
     const response = await axios.get(
-      `/api/user/organization`
+      `/api/user/organization${filters.search?`?search=${filters.search}`:''}`
     );
     return response.data.organizations;
   };

@@ -17,27 +17,9 @@ function JobseekerDetails({ username }: { username: string }) {
   const { data: jobseeker, isLoading } = useFetchSingleJobseekers(username);
   const { data: connectionData, isLoading: connectionLoading } =
     useFetchConnectionStatus(jobseeker?.id);
-  console.log(
-    authData?.user.id,
-    authData?.user.role,
-    authData?.user.id && authData.user.role == "Jobseeker",
-    connectionData?.status == ConnectionStatus.FOLLOW
-  );
   const { mutate: handleConnection, isPending } = useHandleConnection();
   const handleConnectionRequest = (connectionRequest: ConnectionStatus) => {
-    console.log(
-      connectionRequest == ConnectionStatus.ACCEPTED
-        ? "remove"
-        : connectionRequest == ConnectionStatus.PENDING
-        ? connectionData?.followedById == authData?.user.id
-          ? "remove"
-          : connectionData?.followingId == authData?.user.id
-          ? "accept"
-          : null
-        : connectionRequest == ConnectionStatus.FOLLOW
-        ? "send"
-        : "send"
-    );
+
     if (jobseeker?.id && connectionData) {
       handleConnection({
         userId: jobseeker.id,

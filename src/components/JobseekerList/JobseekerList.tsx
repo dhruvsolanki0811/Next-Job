@@ -1,10 +1,19 @@
 "use client";
 import { useFetchAllJobseekers } from "@/hooks/useJobseekerData";
-import React from "react";
+import React, { useEffect } from "react";
 import { JobseekerBox } from "../components";
+import { useFilterStore } from "@/store/filterStore";
+
 
 function JobseekerList() {
-  const { data: jobseekers, isLoading } = useFetchAllJobseekers();
+  const { data: jobseekers, isLoading ,refetch} = useFetchAllJobseekers();
+  const {filters}=useFilterStore()
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      refetch();
+    }, 500);
+    return () => clearTimeout(timeoutID);
+  }, [filters.search]);
   return (
     <>
       {isLoading ? (

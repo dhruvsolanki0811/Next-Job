@@ -116,7 +116,7 @@ function JobPostingForm() {
     e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
   ) => {
     e.preventDefault();
-    // console.log(formData)
+    // log(formData)
     createJob(formData)
   };
   return (

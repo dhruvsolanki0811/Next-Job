@@ -1,10 +1,18 @@
 "use client";
 import { useFetchAllOrganizations } from "@/hooks/useOrganizationData";
-import React from "react";
+import React, { useEffect } from "react";
 import { CompanyBox } from "../components";
+import { useFilterStore } from "@/store/filterStore";
 
 function CompanyList() {
-  const { data: organizations, isLoading } = useFetchAllOrganizations();
+  const { data: organizations, isLoading,refetch } = useFetchAllOrganizations();
+  const {filters}=useFilterStore()
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      refetch();
+    }, 500);
+    return () => clearTimeout(timeoutID);
+  }, [filters.search]);
   return (
     <>
       {isLoading ? (

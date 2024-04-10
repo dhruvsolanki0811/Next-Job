@@ -22,7 +22,6 @@ export const useFetchConnectionStatus=(userId:number|undefined)=>{
     const {data:authData} =useSession()
     const fetchConnectionStatus=async()=>{
         const response =await axios.get(appendToBaseUrl(`connection/${userId}/status`))
-        console.log(response,"okay")
         return response.data.connection as Connection
     }
     return useQuery({

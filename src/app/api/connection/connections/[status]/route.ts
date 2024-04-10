@@ -41,7 +41,6 @@ export async function GET(request: NextRequest, context: { params: Params }) {
             },
           },
         },
-        
       });
       let followers = await db.jobSeeker.findMany({
         where: {
@@ -77,10 +76,9 @@ export async function GET(request: NextRequest, context: { params: Params }) {
           },
         },
       });
-      
+
       return NextResponse.json(
-       {connections:[...followers, ...followings] 
-          },
+        { connections: [...followers, ...followings] },
         { status: 200 }
       );
     } else if (status == "requested") {
@@ -110,17 +108,9 @@ export async function GET(request: NextRequest, context: { params: Params }) {
           },
         },
       });
-console.log()
-      return NextResponse.json(
-        { connections: followings 
-        },
-        { status: 200 }
-      );
-      
+      return NextResponse.json({ connections: followings }, { status: 200 });
     }
-    return NextResponse.json(
-      { error: "Bad Request" },
-      { status: 400 })
+    return NextResponse.json({ error: "Bad Request" }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 });
   }
