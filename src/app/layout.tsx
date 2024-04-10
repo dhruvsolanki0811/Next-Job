@@ -28,7 +28,6 @@ export default function RootLayout({
         <Providers>
           <div className="main-wrapper flex justify-center items-center ">
             <div className="main-container flex max-lg:w-[100vw] w-[90vw]">
-              <Leftbar></Leftbar>
               {children}
             </div>
           </div>
