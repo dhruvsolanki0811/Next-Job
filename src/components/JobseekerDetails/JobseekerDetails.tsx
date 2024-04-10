@@ -2,7 +2,7 @@
 import { jobseekerPlaceHolder } from "@/assets/assets";
 import { useFetchSingleJobseekers } from "@/hooks/useJobseekerData";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { CiMail } from "react-icons/ci";
 import { DevIcon } from "../components";
 import {
@@ -11,8 +11,16 @@ import {
 } from "@/hooks/useConnectionData";
 import { useSession } from "next-auth/react";
 import { ConnectionStatus } from "@/types/type";
+import { redirect } from "next/navigation";
+
 
 function JobseekerDetails({ username }: { username: string }) {
+  const {data:auth,status}=useSession()
+  useEffect(()=>{
+    if(status!='loading' && auth?.user.role=='Jobseeker' &&auth?.user.username==username ){
+      redirect('/profile/organization')
+    }
+  },[status])
   const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useFetchSingleJobseekers(username);
   const { data: connectionData, isLoading: connectionLoading } =

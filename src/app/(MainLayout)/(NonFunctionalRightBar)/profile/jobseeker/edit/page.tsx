@@ -1,3 +1,5 @@
+'use client'
+import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import JobseekerProfileEdit from "@/components/JobseekerProfileEdit/JobseekerProfileEdit";
 import { Navbar } from "@/components/components";
 import React from "react";
@@ -13,4 +15,4 @@ function page() {
   );
 }
 
-export default page;
+export default WithAuthSeeker(page);

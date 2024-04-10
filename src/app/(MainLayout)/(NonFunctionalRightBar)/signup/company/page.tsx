@@ -1,3 +1,5 @@
+'use client'
+import { WithoutAuth } from "@/components/HOC/withOutAuth";
 import { CompanyRegistrationForm, Navbar } from "@/components/components";
 import React from "react";
 
@@ -12,4 +14,4 @@ function page() {
   );
 }
 
-export default page;
+export default WithoutAuth(page);

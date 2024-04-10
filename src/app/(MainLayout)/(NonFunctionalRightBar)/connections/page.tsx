@@ -1,4 +1,5 @@
 "use client";
+import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import { ConnectionsList, Navbar } from "@/components/components";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -84,4 +85,4 @@ function page() {
   );
 }
 
-export default page;
+export default WithAuthSeeker(page);

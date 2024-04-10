@@ -1,4 +1,5 @@
 'use client'
+import { WithAuthOrg } from '@/components/HOC/withAuthOrg';
 import { ApplicantList, Navbar } from '@/components/components';
 import React, { useEffect, useRef, useState } from 'react'
 import { FaSort } from 'react-icons/fa6';
@@ -77,4 +78,4 @@ function page({ params }: { params: { jobId: number }}) {
   )
 }
 
-export default page
+export default WithAuthOrg(page)

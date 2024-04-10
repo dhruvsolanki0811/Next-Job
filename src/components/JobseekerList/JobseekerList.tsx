@@ -3,6 +3,7 @@ import { useFetchAllJobseekers } from "@/hooks/useJobseekerData";
 import React, { useEffect } from "react";
 import { JobseekerBox } from "../components";
 import { useFilterStore } from "@/store/filterStore";
+import { useSession } from "next-auth/react";
 
 
 function JobseekerList() {

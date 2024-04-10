@@ -1,7 +1,10 @@
+'use client'
+import { WithAuthOrg } from '@/components/HOC/withAuthOrg'
 import { Navbar, PostedJobsList } from '@/components/components'
 import React from 'react'
 
 function page({ params }: { params: { orgId: number }}) {
+  console.log(params)
   return (
     <>
         <Navbar>Jobs Posted By Organization</Navbar>
@@ -12,4 +15,4 @@ function page({ params }: { params: { orgId: number }}) {
   )
 }
 
-export default page
+export default WithAuthOrg(page)

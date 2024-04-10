@@ -1,7 +1,9 @@
 'use client'
 import { organizationPlaceHolder } from "@/assets/assets";
 import { useFetchSingleOrganization } from "@/hooks/useOrganizationData";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdDateRange } from "react-icons/md";
@@ -10,7 +12,12 @@ import { TbWorld } from "react-icons/tb";
 function CompanyDetails({ username }: { username: string }) {
   const { data: organization, isLoading } =
     useFetchSingleOrganization(username);
-
+  const {data:auth,status}=useSession()
+  useEffect(()=>{
+    if(status!='loading' && auth?.user.role=='Organization' &&auth?.user.username==username ){
+      redirect('/profile/organization')
+    }
+  },[status])
   return (
     <>
       {" "}

@@ -1,4 +1,5 @@
 "use client";
+import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import {AppliedJobList} from "@/components/components";
 import { JobList, Navbar } from "@/components/components";
 import React, { useEffect, useRef, useState } from "react";
@@ -78,4 +79,4 @@ function page() {
   );
 }
 
-export default page;
+export default WithAuthSeeker(page);

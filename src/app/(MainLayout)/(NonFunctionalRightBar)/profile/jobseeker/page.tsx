@@ -1,5 +1,6 @@
 "use client";
 
+import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import JobseekerProfile from "@/components/JobseekerProfile/JobseekerProfile";
 import { Navbar } from "@/components/components";
 import { useSession } from "next-auth/react";
@@ -19,4 +20,4 @@ function page() {
   );
 }
 
-export default page;
+export default WithAuthSeeker(page);
