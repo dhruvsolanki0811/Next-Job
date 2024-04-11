@@ -52,3 +52,14 @@ export const useFetchApplicantsForJob = ({jobId,status}:{jobId:number,status:str
   });
 };
 
+export const useGetLoggedInOrganization = () => {
+  const { data: authData } = useSession();
+  const getMe = async () => {
+    return (await axios.get(appendToBaseUrl(`user/profile/organization`))).data
+      .user as Organization;
+  };
+  return useQuery({
+    queryKey: ["me",'organzation'],
+    queryFn: getMe,
+  });
+};

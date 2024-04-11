@@ -1,3 +1,4 @@
+'use client'
 import { useSession } from "next-auth/react";
 import React from "react";
 import { CompanyDetails } from "../components";
@@ -5,17 +6,19 @@ import Image from "next/image";
 import { useFetchSingleOrganization } from "@/hooks/useOrganizationData";
 import { organizationPlaceHolder } from "@/assets/assets";
 import { IoLocationOutline } from "react-icons/io5";
-import { TbWorld } from "react-icons/tb";
+import { TbEdit, TbWorld } from "react-icons/tb";
 import { MdDateRange } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { appendToBaseUrl } from "@/hooks/hooks";
 import axios from "axios";
 import Loader from "../ui/Loader";
+import { useRouter } from "next/navigation";
 const getMe = async () => {
   return (await axios.get(appendToBaseUrl(`user/profile/organization`))).data
     .user;
 };
 function CompanyProfile() {
+  const router=useRouter()
   const { data: authData } = useSession();
   const { data: organization, isLoading } = useQuery({
     queryKey: ["me", authData?.user.username],
@@ -67,13 +70,26 @@ function CompanyProfile() {
                 <MdDateRange />
                 Established in {organization?.foundedAt}
               </div>
+              <div className="header-download text-[14px] mt-3 flex items-center gap-1 justify-center">
+                <div
+                  onClick={() => {
+                    router.push("/profile/organization/edit");
+                  }}
+                  className="btn-container gap-2 rounded-full border-[1px] border-solid border-[lgt-grey] px-2 py-1 hover:bg-[green] cursor-pointer hover:text-white flex items-center "
+                >
+                  Edit Profile <TbEdit></TbEdit>
+                </div>
+              </div>
+
             </div>
             <div className="about-sec flex flex-col items-center justify-center mt-2 border-b-[1px] border-b-solid border-b-[#e1e4e8] ">
               <div className=" text-[14px]">About {organization?.name}</div>
               <div className="header-about-txt text-[14px] text-grey-100 text-justify ps-7 pe-7 py-4 ">
                 {organization?.overview}
               </div>
+            
             </div>
+
             <div className="about-sec flex flex-col justify-center mt-2 items-center">
               <div className="header-about text-[14px]">
                 {/* {jobList &&

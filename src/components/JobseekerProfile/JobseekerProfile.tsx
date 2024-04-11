@@ -45,7 +45,7 @@ function JobseekerProfile() {
           </div>
         </>
       ) : (
-        jobseeker && (
+        (jobseeker )&& (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
             <div className="intro-sec border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col  w-full justify-center mt-5 items-center pb-3">
               <div className="image-container flex justify-center items-center h-[5rem] w-[5rem] border-[2px] border-solid border-[#22C55E] p-[1px]">
