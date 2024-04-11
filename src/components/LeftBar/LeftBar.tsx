@@ -60,7 +60,7 @@ function Leftbar() {
             :authUser ? (
               <>
                 <div onClick={()=>router.push( `/profile/${authUser.user.role.toLowerCase()}`)} className="hover:bg-green-500 hover:text-white cursor-pointer  overflow-hidden border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1 	truncate">
-                  <div className="profile-pic-container h-[20px] min-w-[20px] relative">
+                  <div className="profile-pic-container flex items-center justify-center  h-[20px] min-w-[20px] relative">
                     {authUser.user?.image ? (
                       <Image
                         alt=""

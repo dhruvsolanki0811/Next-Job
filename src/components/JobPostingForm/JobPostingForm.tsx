@@ -111,7 +111,7 @@ function JobPostingForm() {
   const handleDelete = (index: number) => {
     setFormData((prevData) => ({
       ...prevData,
-      skills: prevData.skillsRequired.filter((_, i) => i !== index),
+      skillsRequired: prevData.skillsRequired.filter((_, i) => i != index),
     }));
   };
   const handleSubmit = async (
