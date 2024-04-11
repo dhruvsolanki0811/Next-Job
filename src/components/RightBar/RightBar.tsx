@@ -1,11 +1,13 @@
 "use client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 import { HiOutlineUser } from "react-icons/hi2";
 
 function Rightbar({ children }: { children: ReactNode }) {
   const { data: auth, status } = useSession();
+  const router=useRouter()
   return (
     <>
       <div className="fav-section max-md:hidden w-[20%] h-[100vh]  border-r-[1px] border-r-[solid] border-r-[#E1E4E8]">
@@ -13,7 +15,7 @@ function Rightbar({ children }: { children: ReactNode }) {
           <div className=" cursor-pointer flex items-center text-[14px]">
             {status == "authenticated" && auth ? (
               <>
-                <div className="flex items-center gap-[5px] relative">
+                <div onClick={()=>router.push(`/profile/${auth.user.role.toLowerCase()}`)} className="flex items-center gap-[5px] relative">
                   <div className="profile-pic-container h-[30px] min-w-[30px] relative">
                     {auth.user?.image ? (
                       <Image
@@ -30,7 +32,9 @@ function Rightbar({ children }: { children: ReactNode }) {
                 </div>
               </>
             ) : (
-              "Login"
+              <div onClick={()=>{router.push('/signin')}}>
+              Login
+          </div>
             )}
           </div>
         </div>
