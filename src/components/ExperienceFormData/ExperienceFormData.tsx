@@ -81,7 +81,7 @@ function ExperienceFormData({ close,updateData,type }: {type:"ADD"|"EDIT", close
           className="border-1 border-solid border-[lgt-grey] rounded-[10px] flex w-[30rem] max-sm:w-full bg-white ps-4 pe-4 pt-4 pb-4 flex-col gap-1"
         >
           <div className="w-full flex justify-between items-center ">
-            {true ? "Update Project" : "Add Projects Details"}
+            {true ? "Update Experience" : "Add Experiences Details"}
             <IoCloseCircle
               onClick={() => close()}
               className="text-[22px] cursor-pointer"
@@ -199,7 +199,7 @@ function ExperienceFormData({ close,updateData,type }: {type:"ADD"|"EDIT", close
                 type="submit"
                 className="submit-btn rounded-full px-3 py-1 text-[14px] text-[white] hover:bg-green-600 bg-green-500  "
                 >
-                {true ? "Update Project" : "Add Project"}
+                {true ? "Update Experience" : "Add Experience"}
               </button>
             )}
           </div>

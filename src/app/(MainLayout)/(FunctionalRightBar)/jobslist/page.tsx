@@ -135,6 +135,7 @@ function JobListPage() {
       <div className="scrollable-content-wrapper max-sm:h-[73vh] h-[83vh] w-full ">
         <JobList></JobList>
       </div>
+      <BottomBar></BottomBar>
       {modalOpen && (
         <>
           <div className=" backdrop h-[100vh] w-[100vw] fixed top-0 left-0  bg-gray-500 opacity-30 z-100  flex items-center justify-center "></div>
@@ -150,7 +151,6 @@ function JobListPage() {
               <FilterForm></FilterForm>
             </div>
           </div>
-          <BottomBar></BottomBar>
         </>
       )}
     </>

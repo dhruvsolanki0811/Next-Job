@@ -10,7 +10,7 @@ function ConnectionsList({ status }: { status: string }) {
   return (
     <>
       {isLoading?
-      <div className="flex h-full w-full items-center jusitfy-center">
+      <div className="flex max-sm:h-[80vh] h-[90vh] w-full items-center jusitfy-center">
         <Loader size='30px'></Loader>
       </div>
       :
