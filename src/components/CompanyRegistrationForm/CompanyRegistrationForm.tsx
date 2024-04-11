@@ -40,7 +40,7 @@ const addOrganization = async (data: OrganizationFormData) => {
 
   // Send the request
   try {
-    const response=await axios.post(`/api/user/organization`, formData, {
+    const response=await axios.post((`/api/user/organization`), formData, {
       headers: {
         "Content-Type": `multipart/form-data`,
       },
