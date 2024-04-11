@@ -27,21 +27,21 @@ function BottomBar() {
                 ? router.push("/companies/postedjobs")
                 : router.push("/jobslist")
             }
-            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px]  font-medium	my-3 mx-[6px]"
+            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px]  font-medium	my-"
           >
             <PiSuitcaseDuotone className="nav-items-logo text-[19px]"></PiSuitcaseDuotone>
             {authData?.user.role == "Organization" ? "JobPosted" : "JobList"}
           </div>
           <div
             onClick={() => router.push("/jobseekers")}
-            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px] "
+            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px] "
           >
             <IoPeopleOutline className="nav-items-logo text-[19px]"></IoPeopleOutline>
             People
           </div>
           <div
             onClick={() => router.push("/companies")}
-            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px]"
+            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px]"
           >
             <HiOutlineBuildingOffice className="nav-items-logo text-[19px]"></HiOutlineBuildingOffice>
             Company
@@ -49,7 +49,7 @@ function BottomBar() {
           {authData?.user.role === "Jobseeker" && (
             <div
               onClick={() => router.push("/connections")}
-              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px]"
+              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px]"
             >
               <PiHandshakeDuotone className="nav-items-logo text-[19px]"></PiHandshakeDuotone>
               Connects
@@ -59,7 +59,7 @@ function BottomBar() {
           {authData?.user.role === "Jobseeker" && (
             <div
               onClick={() => router.push("/jobs/applied")}
-              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px]"
+              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px]"
             >
               <FaEnvelopeCircleCheck className="nav-items-logo text-[19px]" />
               AppliedJobs
@@ -68,7 +68,7 @@ function BottomBar() {
           {authData?.user.role === "Organization" && (
             <div
               onClick={() => router.push("/jobs/postingform")}
-              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px]"
+              className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px]"
             >
               <AiOutlineAppstoreAdd className="nav-items-logo text-[19px]"></AiOutlineAppstoreAdd>
               PostJob
@@ -77,7 +77,7 @@ function BottomBar() {
           <div
             // onClick={() => router.push("/signin")}
             onClick={toggleProfileDropdown}
-            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[6px]"
+            className="nav-item cursor-pointer btn-joblist flex flex-col items-center gap-1 text-[13px] font-medium my-3 mx-[5px]"
           >
             <LuUser2 className="nav-items-logo text-[19px]"></LuUser2>
             Profile
