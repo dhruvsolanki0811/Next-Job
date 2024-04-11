@@ -8,6 +8,7 @@ import { DevIcon } from "../components";
 import { useApplyJob, useFetchStatusOfApplication } from "@/hooks/useJobData";
 import { useSession } from "next-auth/react";
 import { MdDone, MdOutlineTransitEnterexit } from "react-icons/md";
+import Loader from "../ui/Loader";
 
 function JobDetails({ job }: { job: JobProfile }) {
   const { data: authData } = useSession();
@@ -40,11 +41,12 @@ function JobDetails({ job }: { job: JobProfile }) {
                 />
               )}
             </div>
+            <div>
             {authData &&
               authData.user.role == "Jobseeker" &&
               (statusLoading || isPending ? (
-                "Loading"
-              ) : application ? (
+                <Loader size="25px"></Loader>
+              ) : (application ? (
                 <>
                   <div className="follow-btn flex gap-2 items-center  bg-white text-[14px] cursor-pointer hover:bg-[#22C35E] hover:text-[white] ps-2 pe-2 border-[1px] rounded border-solid border-black">
                     {application.status.toString().charAt(0) +
@@ -63,9 +65,9 @@ function JobDetails({ job }: { job: JobProfile }) {
                     Apply <MdOutlineTransitEnterexit className="text-[18px]" />
                   </div>
                 </>
-              ))}
+              )))}
           </div>
-
+          </div>
           <div className="role-name mt-5 text-[18px]">{job?.role}</div>
           <div className="role-name mt-2 text-[14px] color-lgt-grey">
             At {job?.organization.name},{job?.location} • {job?.employeeType}

@@ -12,22 +12,25 @@ import {
 import { useSession } from "next-auth/react";
 import { ConnectionStatus } from "@/types/type";
 import { redirect } from "next/navigation";
-
+import Loader from "../ui/Loader";
 
 function JobseekerDetails({ username }: { username: string }) {
-  const {data:auth,status}=useSession()
-  useEffect(()=>{
-    if(status!='loading' && auth?.user.role=='Jobseeker' &&auth?.user.username==username ){
-      redirect('/profile/organization')
+  const { data: auth, status } = useSession();
+  useEffect(() => {
+    if (
+      status != "loading" &&
+      auth?.user.role == "Jobseeker" &&
+      auth?.user.username == username
+    ) {
+      redirect("/profile/organization");
     }
-  },[status])
+  }, [status]);
   const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useFetchSingleJobseekers(username);
   const { data: connectionData, isLoading: connectionLoading } =
     useFetchConnectionStatus(jobseeker?.id);
   const { mutate: handleConnection, isPending } = useHandleConnection();
   const handleConnectionRequest = (connectionRequest: ConnectionStatus) => {
-
     if (jobseeker?.id && connectionData) {
       handleConnection({
         userId: jobseeker.id,
@@ -49,7 +52,9 @@ function JobseekerDetails({ username }: { username: string }) {
   return (
     <>
       {isLoading ? (
-        <>Loading</>
+        <div className=" h-full w-full  flex justify-center items-center">
+          <Loader size="30px"></Loader>
+        </div>
       ) : (
         jobseeker && (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -72,45 +77,54 @@ function JobseekerDetails({ username }: { username: string }) {
                 <div className="header-username  ">@{jobseeker?.username}</div>
               </div>
 
-              {(authData?.user.id &&
-                authData.user.role == "Jobseeker" && jobseeker)&&
-                <div className="follow-username-sec flex items-center justify-center gap-2 mt-2">
-                  {
-                (connectionLoading || isPending ? (
-                  <div className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2">
-                    Loading
-                  </div>
-                ) : (
-                  connectionData && (
-                    <><div
-                      onClick={() =>
-                        handleConnectionRequest(connectionData.status)
-                      }
-                      className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
-                    >
-                      {/* {rejecting || sending || statusLoading || isFetching */}
+              {authData?.user.id &&
+                authData.user.role == "Jobseeker" &&
+                jobseeker && (
+                  <div className="follow-username-sec flex items-center justify-center gap-2 mt-2">
+                    {connectionLoading || isPending ? (
+                      <div className="follow-btn   mt-2">
+                        <Loader size="15px"/>
+                      </div>
+                    ) : (
+                      connectionData && (
+                        <>
+                          <div
+                            onClick={() =>
+                              handleConnectionRequest(connectionData.status)
+                            }
+                            className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
+                          >
+                            {/* {rejecting || sending || statusLoading || isFetching */}
 
-                      {connectionData.status == ConnectionStatus.ACCEPTED
-                        ? "Connected"
-                        : connectionData.status == ConnectionStatus.PENDING
-                        ? connectionData.followedById == authData.user.id
-                          ? "Pending"
-                          : connectionData.followingId == authData.user.id &&
-                            "Accept"
-                        : connectionData.status == ConnectionStatus.FOLLOW &&
-                          "Follow"}
-                    </div>
-{connectionData.followingId == authData.user.id &&                    <div
-                    onClick={() =>
-                      handleConnection({userId:jobseeker.id,action:'reject'})
-                    }
-                    className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
-                  >
-                    Reject</div>}</>
-                  )
-                ))}
-              </div>
-                }
+                            {connectionData.status == ConnectionStatus.ACCEPTED
+                              ? "Connected"
+                              : connectionData.status ==
+                                ConnectionStatus.PENDING
+                              ? connectionData.followedById == authData.user.id
+                                ? "Pending"
+                                : connectionData.followingId ==
+                                    authData.user.id && "Accept"
+                              : connectionData.status ==
+                                  ConnectionStatus.FOLLOW && "Follow"}
+                          </div>
+                          {connectionData.followingId == authData.user.id && (
+                            <div
+                              onClick={() =>
+                                handleConnection({
+                                  userId: jobseeker.id,
+                                  action: "reject",
+                                })
+                              }
+                              className="follow-btn text-[14px]  ps-2 pe-2 border-[1px] rounded border-solid cursor-pointer hover:bg-[#22C55E] hover:text-[white] mt-2"
+                            >
+                              Reject
+                            </div>
+                          )}
+                        </>
+                      )
+                    )}
+                  </div>
+                )}
 
               <div className="header-username font-medium text-[16px] mt-2">
                 {jobseeker.firstName} {jobseeker.lastName}

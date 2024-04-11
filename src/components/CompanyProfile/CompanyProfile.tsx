@@ -10,6 +10,7 @@ import { MdDateRange } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { appendToBaseUrl } from "@/hooks/hooks";
 import axios from "axios";
+import Loader from "../ui/Loader";
 const getMe = async () => {
   return (await axios.get(appendToBaseUrl(`user/profile/organization`))).data
     .user;
@@ -24,7 +25,11 @@ function CompanyProfile() {
     <>
       {" "}
       {isLoading ? (
-        <>Loading</>
+        <>
+          <div className=" h-full   flex items-center justify-center gap-2 w-full overflow-x-none overflow-y-auto ">
+            <Loader size="30px"></Loader>
+          </div>
+        </>
       ) : (
         organization && (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { FaEnvelopeCircleCheck } from "react-icons/fa6";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
 import { IoIosLogOut } from "react-icons/io";
 import { IoPeopleOutline } from "react-icons/io5";
@@ -45,9 +46,14 @@ function Leftbar() {
               Connects
             </div>}
             {(authUser && authUser?.user.role== "Organization") &&(
-            <div onClick={()=>router.push(`/companies/postedjobs`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+            <div onClick={()=>router.push(`/jobs/postingform`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
               <AiOutlineAppstoreAdd className="nav-items-logo"></AiOutlineAppstoreAdd>
               Post Job
+            </div>)}
+            {(authUser && authUser?.user.role== "Jobseeker") &&(
+            <div onClick={()=>router.push(`/jobs/applied`)} className="hover:bg-green-500 hover:text-white cursor-pointer  border-solid border-[1px] border-green-500   flex items-center gap-[3px] text-[16px] font-medium px-[3px] py-2 m-1">
+              <FaEnvelopeCircleCheck  className="nav-items-logo"/>
+              AppliedJobs
             </div>)}
             {status=='loading'?
             <></>

@@ -13,7 +13,7 @@ interface statusType {
 function page() {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<statusType>({
-    name: "Accepted",
+    name: "Connection",
     value: "accepted",
   });
   const dropdownRef = useRef<HTMLDivElement | null>(null);

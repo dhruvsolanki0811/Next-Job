@@ -32,7 +32,7 @@ function page({ params }: { params: { jobId: number }}) {
     return (
     <>
     <Navbar>
-        Jobs Applied
+        Jobs Applicants
         <div className="relative">
           <div
           ref={dropdownRef}

@@ -4,7 +4,6 @@ import { Navbar, PostedJobsList } from '@/components/components'
 import React from 'react'
 
 function page({ params }: { params: { orgId: number }}) {
-  console.log(params)
   return (
     <>
         <Navbar>Jobs Posted By Organization</Navbar>

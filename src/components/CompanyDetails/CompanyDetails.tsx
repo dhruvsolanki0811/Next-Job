@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { organizationPlaceHolder } from "@/assets/assets";
 import { useFetchSingleOrganization } from "@/hooks/useOrganizationData";
 import { useSession } from "next-auth/react";
@@ -8,21 +8,28 @@ import React, { useEffect } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdDateRange } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
+import Loader from "../ui/Loader";
 
 function CompanyDetails({ username }: { username: string }) {
   const { data: organization, isLoading } =
     useFetchSingleOrganization(username);
-  const {data:auth,status}=useSession()
-  useEffect(()=>{
-    if(status!='loading' && auth?.user.role=='Organization' &&auth?.user.username==username ){
-      redirect('/profile/organization')
+  const { data: auth, status } = useSession();
+  useEffect(() => {
+    if (
+      status != "loading" &&
+      auth?.user.role == "Organization" &&
+      auth?.user.username == username
+    ) {
+      redirect("/profile/organization");
     }
-  },[status])
+  }, [status]);
   return (
     <>
       {" "}
       {isLoading ? (
-        <>Loading</>
+        <div className="flex h-full w-full items-center justify-center">
+          <Loader size="30px" />
+        </div>
       ) : (
         organization && (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -45,8 +52,7 @@ function CompanyDetails({ username }: { username: string }) {
                 {organization?.name}
               </div>
               <div className="header-username font-medium flex gap-1 items-center text-[14px] mt-2">
-                
-              <IoLocationOutline />
+                <IoLocationOutline />
                 {organization?.location}
               </div>
 
@@ -58,16 +64,14 @@ function CompanyDetails({ username }: { username: string }) {
                 </div>
               )}
               <div className="header-email text-[14px] color-lgt-grey mt-3 flex items-center gap-1 justify-center">
-              <MdDateRange />
-Established in {organization?.foundedAt}
+                <MdDateRange />
+                Established in {organization?.foundedAt}
               </div>
             </div>
             <div className="about-sec flex flex-col items-center justify-center mt-2 border-b-[1px] border-b-solid border-b-[#e1e4e8] ">
-              <div className=" text-[14px]">
-                About {organization?.name}
-              </div>
+              <div className=" text-[14px]">About {organization?.name}</div>
               <div className="header-about-txt text-[14px] text-grey-100 text-justify ps-7 pe-7 py-4 ">
-                {organization?.overview} 
+                {organization?.overview}
               </div>
             </div>
             <div className="about-sec flex flex-col justify-center mt-2 items-center">

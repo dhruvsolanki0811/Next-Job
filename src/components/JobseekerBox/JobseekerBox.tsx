@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useHandleSeekerApplication } from "@/hooks/useJobData";
 import { useHandleConnection } from "@/hooks/useConnectionData";
+import Loader from "../ui/Loader";
 
 function JobseekerBox({
   jobseeker,
@@ -22,8 +23,11 @@ function JobseekerBox({
   const router = useRouter();
   const { data: authData } = useSession();
   const { mutate: handleApplication, isPending } = useHandleSeekerApplication();
-  const { mutate: handleConnection, isPending :connectionLoading} = useHandleConnection();
-  
+  const { mutate: handleConnection, isPending: connectionLoading } =
+    useHandleConnection();
+  console.log(connectionStatus);
+  console.log(jobseeker.jobApplications, jobseeker, "oka");
+
   return (
     <>
       <div
@@ -45,46 +49,63 @@ function JobseekerBox({
               ></img>
             )}
           </div>
-
-          {authData?.user.role === "Jobseeker" &&
-          connectionLoading?'Loading':
-            (connectionStatus ? (
+          <div className="flex items-center gap-[3px]">
+            {authData?.user.role === "Jobseeker" && connectionLoading ? (
+              <Loader size="15px" />
+            ) : connectionStatus ? (
               connectionStatus === "accepted" ? (
-                <div 
-                onClick={(e)=>{
-                  e.stopPropagation()
-                  handleConnection({userId:jobseeker.id,action:'remove'})
-                }}
-                className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black">
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleConnection({
+                      userId: jobseeker.id,
+                      action: "remove",
+                    });
+                  }}
+                  className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+                >
                   Connected
                 </div>
               ) : connectionStatus === "requested" ? (
-                <div 
-                onClick={(e)=>{
-                  e.stopPropagation()
-                  handleConnection({userId:jobseeker.id,action:'remove'})
-                }}
-                className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black">
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleConnection({
+                      userId: jobseeker.id,
+                      action: "remove",
+                    });
+                  }}
+                  className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+                >
                   Pending
                 </div>
               ) : connectionStatus === "requests" ? (
                 <>
-                <div className="flex gap-2 items-center ">
-                  <div 
-                  onClick={(e)=>{
-                    e.stopPropagation()
-                    handleConnection({userId:jobseeker.id,action:'accept'})
-                  }}
-                  className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black">
-                    Accept
-                  </div>
-                  <div onClick={(e)=>{
-                  e.stopPropagation()
-                  handleConnection({userId:jobseeker.id,action:'reject'})
-                }}
-                className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black">
-                    Reject
-                  </div>
+                  <div className="flex gap-2 items-center ">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleConnection({
+                          userId: jobseeker.id,
+                          action: "accept",
+                        });
+                      }}
+                      className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+                    >
+                      Accept
+                    </div>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleConnection({
+                          userId: jobseeker.id,
+                          action: "reject",
+                        });
+                      }}
+                      className="follow-btn text-[14px] ps-2 pe-2 border-[1px] rounded border-solid border-black"
+                    >
+                      Reject
+                    </div>
                   </div>
                 </>
               ) : (
@@ -92,7 +113,8 @@ function JobseekerBox({
                   Follow
                 </div>
               )
-            ) : null)}
+            ) : null}
+          </div>
         </div>
 
         <div className="people-jobseekername text-[14px] mt-1 flex items-center gap-2">
@@ -140,36 +162,43 @@ function JobseekerBox({
               ></span>
               {status}
             </div>
-            {isPending
-              ? "Loading"
-              : status == Status.PENDING && (
-                  <>
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleApplication({
-                          applicationData: jobseeker.jobApplications[0],
-                          status: "accepted",
-                        });
-                      }}
-                      className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
-                    >
-                      Accept
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleApplication({
-                          applicationData: jobseeker.jobApplications[0],
-                          status: "rejected",
-                        });
-                      }}
-                      className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
-                    >
-                      Rejected
-                    </div>
-                  </>
-                )}
+            {isPending ? (
+              <Loader size="15px"></Loader>
+            ) : (
+              status == Status.PENDING &&
+              jobseeker.jobApplications[0] && (
+                <>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("ma");
+                      console.log();
+                      handleApplication({
+                        applicationData: jobseeker.jobApplications[0],
+                        status: "accepted",
+                      });
+                    }}
+                    className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
+                  >
+                    Accept
+                  </div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("ra");
+                      console.log(jobseeker.jobApplications[0], "beh");
+                      handleApplication({
+                        applicationData: jobseeker.jobApplications[0],
+                        status: "rejected",
+                      });
+                    }}
+                    className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1"
+                  >
+                    Reject
+                  </div>
+                </>
+              )
+            )}
           </div>
         )}
 

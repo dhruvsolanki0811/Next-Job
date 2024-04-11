@@ -6,6 +6,7 @@ import axios, { isAxiosError } from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import Loader from "../ui/Loader";
 
 interface OrganizationFormData {
   name: string;
@@ -299,12 +300,14 @@ function CompanyRegistrationForm() {
         </div>
         {/* Submit button */}
         <div className="login-btn-wrapper ">
-          <button
+         {loader?
+         <Loader size="22px"></Loader>
+         : <button
             type="submit"
             className="submit-btn rounded-full px-3 py-1 text-[14px] text-[white] hover:bg-green-600 bg-green-500  "
           >
             SignUp
-          </button>
+          </button>}
         </div>
       </form>
     </>

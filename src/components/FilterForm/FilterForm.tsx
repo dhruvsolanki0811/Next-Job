@@ -2,12 +2,13 @@
 import { useFetchAllJobs } from "@/hooks/useJobData";
 import { useFilterStore } from "@/store/filterStore";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import Loader from "../ui/Loader";
 
 function FilterForm() {
   const [loading, setLoading] = useState(false);
   // const { filters, setFilter } = useFilterStore();
-  const filters=useFilterStore((state)=>state.filters);
-  const setFilter=useFilterStore((state)=>state.setFilter);
+  const filters = useFilterStore((state) => state.filters);
+  const setFilter = useFilterStore((state) => state.setFilter);
 
   const { refetch } = useFetchAllJobs();
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,9 +40,9 @@ function FilterForm() {
       ...filters,
       min_requiredExperience: 0,
       min_salary: 0,
-      location: ""
+      location: "",
     });
-    
+
     await refetch();
     await refetch();
 
@@ -95,13 +96,12 @@ function FilterForm() {
         </label>
 
         {loading ? (
-          //   <ReactLoading
-          //     type="bubbles"
-          //     color="green"
-          //     height={10}
-          //     className="flex items-center  overflow-hidden mt-2"
-          //   />
-          <> loading</>
+          <>
+            {" "}
+            <div className="btn-container flex items-center gap-2 mt-2">
+              <Loader size="25px"></Loader>{" "}
+            </div>
+          </>
         ) : (
           <div className="btn-container flex items-center gap-2 mt-2">
             <button

@@ -11,14 +11,21 @@ import { DevIcon } from "../components";
 import { TbEdit } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import { useGetLoggedInUser } from "@/hooks/useJobseekerData";
+import Loader from "../ui/Loader";
 
 function JobseekerProfile() {
-    const router=useRouter()
+  const router = useRouter();
   const { data: authData } = useSession();
- const {data:jobseeker,isLoading}=useGetLoggedInUser()
-  return <>
-  {isLoading ? (
-        <>Loading</>
+  const { data: jobseeker, isLoading } = useGetLoggedInUser();
+  return (
+    <>
+      {isLoading ? (
+        <>
+          {" "}
+          <div className=" h-full   flex items-center justify-center gap-2 w-full overflow-x-none overflow-y-auto ">
+            <Loader size="30px"></Loader>
+          </div>
+        </>
       ) : (
         jobseeker && (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -41,7 +48,6 @@ function JobseekerProfile() {
                 <div className="header-username  ">@{jobseeker?.username}</div>
               </div>
 
-             
               <div className="header-username font-medium text-[16px] mt-2">
                 {jobseeker.firstName} {jobseeker.lastName}
               </div>
@@ -69,10 +75,15 @@ function JobseekerProfile() {
                 })}
               </div>
               <div className="header-download text-[14px] mt-3 flex items-center gap-1 justify-center">
-                    <div onClick={()=>{router.push("/profile/jobseeker/edit")}} className="btn-container gap-2 rounded-full border-[1px] border-solid border-[lgt-grey] px-2 py-1 hover:bg-[green] cursor-pointer hover:text-white flex items-center ">
-                      Edit Profile <TbEdit></TbEdit>
-                    </div>
+                <div
+                  onClick={() => {
+                    router.push("/profile/jobseeker/edit");
+                  }}
+                  className="btn-container gap-2 rounded-full border-[1px] border-solid border-[lgt-grey] px-2 py-1 hover:bg-[green] cursor-pointer hover:text-white flex items-center "
+                >
+                  Edit Profile <TbEdit></TbEdit>
                 </div>
+              </div>
             </div>
             <div className="about-sec pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col justify-center mt-2 items-center">
               <div className="header-about text-[14px]">
@@ -169,7 +180,9 @@ function JobseekerProfile() {
               )} */}
           </div>
         )
-      )}</>;
+      )}
+    </>
+  );
 }
 
 export default JobseekerProfile;

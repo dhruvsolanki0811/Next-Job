@@ -5,6 +5,7 @@ import axios, { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 import { ZodErrorResponse } from "@/types/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Loader from "../ui/Loader";
 interface JobProfileFormData {
   role: string;
   requiredExperience: string;
@@ -27,6 +28,7 @@ const postJobseeker = async (data: JobProfileFormData) => {
       },
     });
     toast.success("Job posted!");
+    return await response.data
   } catch (error) {
     console.log(error)
     if (isAxiosError(error) && error.response?.status == 403) {
@@ -216,14 +218,14 @@ function JobPostingForm() {
         />
 
         <div className="login-btn-wrapper ">
-          {false ? (
-            "Loading"
+          {isPending ? (
+            <Loader size="20px"/>
           ) : (
             <button
               type="submit"
               className="submit-btn rounded-full px-3 py-1 text-[14px] text-[white] hover:bg-green-600 bg-green-500  "
             >
-              SignUp
+              Post
             </button>
           )}
         </div>

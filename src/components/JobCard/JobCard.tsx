@@ -87,7 +87,10 @@ function JobCard({ job, status }: { job: JobProfile; status?: Status }) {
           </div>
           {(authData?.user.role=='Organization') && (
             <div className="applicant-btn flex text-[12px] items-center   gap-2  mt-2   ">
-              <div onClick={(e)=>{e.stopPropagation(); }} className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1">View Applicants<RiContactsLine /></div>
+              <div onClick={(e)=>{
+                
+                e.stopPropagation();
+                router.push( `/jobs/applicants/${job.id}`) }} className="rounded-[5px]  hover:border-[black] flex text-[12px] border-[1px] px-2 py-[3px] flex items-center gap-1">View Applicants<RiContactsLine /></div>
             </div>
           )}          
         </div>

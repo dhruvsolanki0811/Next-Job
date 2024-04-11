@@ -1,3 +1,4 @@
+'use client'
 import { WithoutAuth } from "@/components/HOC/withOutAuth";
 import { JobseekerRegistrationForm, Navbar } from "@/components/components";
 import React from "react";

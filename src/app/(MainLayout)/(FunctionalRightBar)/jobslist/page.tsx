@@ -5,8 +5,8 @@ import { useFetchAllJobs } from "@/hooks/useJobData";
 import { useFilterStore } from "@/store/filterStore";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { AiFillFilter } from "react-icons/ai";
-import { FaFilter, FaSort } from "react-icons/fa6";
-import { IoCloseCircle, IoCloseCircleSharp } from "react-icons/io5";
+import {  FaSort } from "react-icons/fa6";
+import {  IoCloseCircleSharp } from "react-icons/io5";
 interface statusType {
   name: string;
   value: string;

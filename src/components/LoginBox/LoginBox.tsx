@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, {  useState } from "react";
 import { toast } from "react-toastify";
 
@@ -46,6 +46,7 @@ function LoginBox() {
       toast.success("Login Successful!")
       setPassword("");
       setEmail("");
+      router.push(userType=='Organization'?'/profile/organization':'/profile/jobseeker')
     }
   };
 
@@ -113,7 +114,7 @@ function LoginBox() {
         <div
           onClick={() => {
             if (userType == "Jobseeker") {
-                router.push("/signup/jobseekers");
+                router.push("/signup/jobseeker");
             } else if (userType == "Organization") {
               router.push("/signup/company");
             }

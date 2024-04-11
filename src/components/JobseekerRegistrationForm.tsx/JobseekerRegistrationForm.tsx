@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import axios, { AxiosError, isAxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ZodError } from "zod";
+import Loader from "../ui/Loader";
 interface SeekerFormData {
   username: string;
   firstName: string;
@@ -383,7 +384,7 @@ function JobseekerRegistrationForm() {
 
         <div className="login-btn-wrapper ">
           {loader ? (
-            "Loading"
+            <Loader size="20px"></Loader>
           ) : (
             <button
               type="submit"

@@ -128,9 +128,10 @@ export const useHandleSeekerApplication = () => {
     setStatus(status);
     setApplication(applicationData);
     try {
+      console.log(applicationData,"pppppppppp")
       await axios.put(
         appendToBaseUrl(
-          `jobs/applicants/handlestatus/${application.id}/${status}`
+          `jobs/applicants/handlestatus/${applicationData.id}/${status}`
         )
       );
     } catch (error) {
