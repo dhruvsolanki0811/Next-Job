@@ -4,7 +4,7 @@ import JobseekerProfileEdit from "@/components/JobseekerProfileEdit/JobseekerPro
 import { BottomBar, Navbar } from "@/components/components";
 import React from "react";
 
-function page() {
+function JobseekerProfileEditPage() {
   return (
     <>
       <Navbar>Edit Profile</Navbar>
@@ -17,4 +17,4 @@ function page() {
   );
 }
 
-export default WithAuthSeeker(page);
+export default WithAuthSeeker(JobseekerProfileEditPage);

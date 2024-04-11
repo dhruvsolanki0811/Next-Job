@@ -3,7 +3,7 @@ import { BottomBar, JobDetails, Navbar } from "@/components/components";
 import { useFetchSingleJob } from "@/hooks/useJobData";
 import React from "react";
 
-function page({ params }: { params: { jobId: string } }) {
+function JobDetailsPage({ params }: { params: { jobId: string } }) {
   const { data: job, isLoading } = useFetchSingleJob(
     params.jobId.split("-")[1]
   );
@@ -29,4 +29,4 @@ function page({ params }: { params: { jobId: string } }) {
   );
 }
 
-export default page;
+export default JobDetailsPage;

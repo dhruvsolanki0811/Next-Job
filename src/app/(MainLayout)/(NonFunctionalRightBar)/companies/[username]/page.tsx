@@ -1,8 +1,7 @@
 import { BottomBar, CompanyDetails, JobseekerDetails, Navbar } from '@/components/components';
-import { useParams } from 'next/navigation';
 import React from 'react'
 
-function page({ params }: { params: { username: string }}) {
+function CompanyDetailsPage({ params }: { params: { username: string }}) {
   
     return (
       <>
@@ -15,4 +14,4 @@ function page({ params }: { params: { username: string }}) {
     );
 }
 
-export default page
+export default CompanyDetailsPage

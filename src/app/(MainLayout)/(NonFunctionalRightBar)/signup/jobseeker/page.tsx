@@ -3,7 +3,7 @@ import { WithoutAuth } from "@/components/HOC/withOutAuth";
 import { BottomBar, JobseekerRegistrationForm, Navbar } from "@/components/components";
 import React from "react";
 
-function page() {
+function Signup() {
   return (
     <>
       <Navbar>Jobseeker Registration</Navbar>
@@ -15,4 +15,4 @@ function page() {
   );
 }
 
-export default WithoutAuth(page);
+export default WithoutAuth(Signup);

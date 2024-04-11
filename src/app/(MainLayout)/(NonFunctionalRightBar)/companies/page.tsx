@@ -4,7 +4,7 @@ import { SearchSectionWrapper } from "@/components/ui/ui";
 import { useFilterStore } from "@/store/filterStore";
 import React, { ChangeEvent, useEffect } from "react";
 
-function page() {
+function CompaniesPage() {
   const { filters, setFilter } = useFilterStore();
   useEffect(() => {
     return () => {
@@ -46,4 +46,4 @@ function page() {
   );
 }
 
-export default page;
+export default CompaniesPage;

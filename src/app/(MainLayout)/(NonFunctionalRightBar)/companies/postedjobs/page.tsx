@@ -3,7 +3,7 @@ import { WithAuthOrg } from '@/components/HOC/withAuthOrg'
 import { BottomBar, Navbar, PostedJobsList } from '@/components/components'
 import React from 'react'
 
-function page({ params }: { params: { orgId: number }}) {
+function PostedJobsListPage({  }: { params: { orgId: number }}) {
   return (
     <>
         <Navbar>Jobs Posted By Organization</Navbar>
@@ -16,4 +16,4 @@ function page({ params }: { params: { orgId: number }}) {
   )
 }
 
-export default WithAuthOrg(page)
+export default WithAuthOrg(PostedJobsListPage)

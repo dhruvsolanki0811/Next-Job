@@ -1,7 +1,6 @@
 "use client";
 import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import { BottomBar, ConnectionsList, Navbar } from "@/components/components";
-import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSort } from "react-icons/fa6";
 
@@ -10,7 +9,7 @@ interface statusType {
   value: string;
 }
 
-function page() {
+function ConnectionsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState<statusType>({
     name: "Connection",
@@ -87,4 +86,4 @@ function page() {
   );
 }
 
-export default WithAuthSeeker(page);
+export default WithAuthSeeker(ConnectionsPage);

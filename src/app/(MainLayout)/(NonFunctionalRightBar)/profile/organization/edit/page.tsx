@@ -2,12 +2,11 @@
 import { WithAuthOrg } from "@/components/HOC/withAuthOrg";
 
 
-import JobseekerProfileEdit from "@/components/JobseekerProfileEdit/JobseekerProfileEdit";
 import OrganizationProfileEdit from "@/components/OrganizationProfileEdit/OrganizationProfileEdit";
 import { BottomBar, Navbar } from "@/components/components";
 import React from "react";
 
-function page() {
+function OrganizationProfileEditPage() {
   return (
     <>
       <Navbar>Edit Profile</Navbar>
@@ -20,4 +19,4 @@ function page() {
   );
 }
 
-export default WithAuthOrg(page);
+export default WithAuthOrg(OrganizationProfileEditPage);

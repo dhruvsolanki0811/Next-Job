@@ -3,7 +3,7 @@ import { WithAuthOrg } from "@/components/HOC/withAuthOrg";
 import { BottomBar, JobPostingForm, Navbar } from "@/components/components";
 import React from "react";
 
-function page() {
+function JobPostingFormPage() {
   return (
     <>
       <Navbar>Post a Job</Navbar>
@@ -15,4 +15,4 @@ function page() {
   );
 }
 
-export default WithAuthOrg(page);
+export default WithAuthOrg(JobPostingFormPage);

@@ -1,14 +1,14 @@
 "use client";
 import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import {AppliedJobList, BottomBar} from "@/components/components";
-import { JobList, Navbar } from "@/components/components";
+import {  Navbar } from "@/components/components";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSort } from "react-icons/fa6";
 interface statusType{
     name:string,
     value:string
 }
-function page() {
+function JobsAppliedPage() {
   const [isOpen, setIsOpen] = useState(false);
     const[status,setStatus]=useState<statusType>({name:"All",value:"applied"})
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -80,4 +80,4 @@ function page() {
   );
 }
 
-export default WithAuthSeeker(page);
+export default WithAuthSeeker(JobsAppliedPage);

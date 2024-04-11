@@ -7,7 +7,7 @@ interface statusType{
     name:string,
     value:string
 }
-function page({ params }: { params: { jobId: number }}) {
+function JobApplicantsPage({ params }: { params: { jobId: number }}) {
     const [isOpen, setIsOpen] = useState(false);
     const[status,setStatus]=useState<statusType>({name:"All",value:"applied"})
     const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -79,4 +79,4 @@ function page({ params }: { params: { jobId: number }}) {
   )
 }
 
-export default WithAuthOrg(page)
+export default WithAuthOrg(JobApplicantsPage)

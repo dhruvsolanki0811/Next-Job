@@ -6,7 +6,7 @@ import { BottomBar, Navbar } from "@/components/components";
 import { useSession } from "next-auth/react";
 import React from "react";
 
-function page() {
+function JobseekerProfilePage() {
   const { data: auth } = useSession();
 
   return (
@@ -22,4 +22,4 @@ function page() {
   );
 }
 
-export default WithAuthSeeker(page);
+export default WithAuthSeeker(JobseekerProfilePage);
