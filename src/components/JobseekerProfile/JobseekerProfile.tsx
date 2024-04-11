@@ -1,8 +1,5 @@
-import { jobseekerPlaceHolder } from "@/assets/assets";
-import { appendToBaseUrl } from "@/hooks/hooks";
-import { Experience, JobSeeker } from "@/types/type";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { jobseekerPlaceHolder, projectPlaceholder } from "@/assets/assets";
+import { Experience, Project } from "@/types/type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -15,15 +12,38 @@ import Loader from "../ui/Loader";
 import { useDeleteExperience, useFetchExperienceByUser } from "@/hooks/useExperienceData";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ExperienceFormData from "../ExperienceFormData/ExperienceFormData";
+import ProjectModal from "../ProjectModal/ProjectModal";
+import { useDeleteProject, useFetchProjectByUser } from "@/hooks/useProjectData";
+import ProjectFormModal from "../ProjectFormModal/ProjectFormModal";
 
 function JobseekerProfile() {
   const router = useRouter();
+  const { mutate: deleteProject, isPending:deleteLoading} = useDeleteProject();
+  const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
+  const projectFormModalClose = () => {
+    setIsProjectFormOpen(false);
+  };
+  const [isProjectEditFormOpen, setIsProjectEditFormOpen] = useState(false);
+  const projectEditFormModalClose = () => {
+    setCurrProject({} as Project);
+    setIsProjectEditFormOpen(false);
+  };
+
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [currProject, setCurrProject] = useState<Project>({} as Project);
+  const projectModalClose = () => {
+    setCurrProject({} as Project);
+    setProjectModalOpen(false);
+  };
+  
   const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useGetLoggedInUser();
   const {mutate:deleteExperience,isPending:isExperienceDeleteLoading}=useDeleteExperience()
 
   const { data: experiences, isLoading: isExperienceLoading } =
   useFetchExperienceByUser(authData?.user.id.toString());
+  const { data: projects, isLoading: projectLoading } =
+  useFetchProjectByUser(authData?.user.id.toString());
   const [isExperienceFormOpen, setIsExperienceFormOpen] = useState(false);
   const experienceFormModalClose = () => {
     setIsExperienceFormOpen(false);
@@ -111,60 +131,120 @@ function JobseekerProfile() {
                 {jobseeker?.description}
               </div>
             </div>
-            {/* {projectLoading ? (
+            {projectLoading ? (
                 <></>
               ) : (
-                projects &&
-                projects?.length > 0 && (
-                  <div className="personal-projects w-full flex flex-col items-center  border-b-[1px] border-b-solid border-b-[#e1e4e8]">
-                    <div className="header-experience w-[max-content] text-[14px]">
-                      Projects
-                    </div>
-                    <div className="projetctcards-grid flex mt-4 mb-4 justify-center  flex-wrap w-full px-7 gap-4">
-                      {projects?.map((project,key) => (
+                <div className="personal-projects w-full flex flex-col items-center  border-b-[1px] border-b-solid border-b-[#e1e4e8]">
+                  <div className="header-experience w-[max-content] text-[14px]">
+                    Projects
+                  </div>
+                  <div
+                    onClick={() => setIsProjectFormOpen(true)}
+                    className="header-experience cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]"
+                  >
+                    Add Project <IoAddCircleSharp className="text-[20px]" />
+                  </div>
+                  {isProjectFormOpen && (
+                    <ProjectFormModal
+                      type="ADD"
+                      close={projectFormModalClose}
+                    ></ProjectFormModal>
+                  )}
+                  <div className="projetctcards-grid flex mt-4 mb-4 justify-center  flex-wrap w-full px-6 gap-4">
+                    {isLoading ? (
+                      <div className="loader-container h-[13rem]">
+                        <Loader size="20px"></Loader>
+                      </div>
+                    ) : (
+                      projects &&
+                      projects.map((project,key) => (
                         <div
                         key={key}
                           onClick={() => {
                             setCurrProject(project);
                             setProjectModalOpen(true);
                           }}
-                          className="project-card cursor-pointer border-[1px] overflow-hidden rounded-[10px] border-solid border-[#e1e4e8] w-[13.4rem] max-sm:w-full max-lg:w-full max-md:w-[13.4rem] h-[14rem] "
+                          className="project-card cursor-pointer border-[1px] overflow-hidden rounded-[10px] border-solid border-[#e1e4e8] w-[13.4rem] max-sm:w-full  max-md:w-[13.4rem] h-[13rem] "
                         >
-                          <div className="project-img h-[74%] border-b-[lgt-grey] border-b-solid border-b-[2px]">
-                          {project.image?<img
-                              className="object-cover h-full w-full  "
-                              src={project.image}
-                              alt=""
-                            />:<img
-                            className="object-fill h-full w-full  "
-                            src={unknownProject}
-                            alt=""
-                          />}
-                          </div> */}
-            {/* 
+                          <div className="relative project-img h-[74%] border-b-[1px] border-b-solid border-b-[lgt-grey]">
+                            {project.image ? (
+                              <img
+                                className="object-cover h-full w-full  "
+                                src={project.image}
+                                alt=""
+                              />
+                            ) : (
+                              <Image
+                                className="object-fill h-full w-full  "
+                                src={projectPlaceholder}
+                                alt=""
+                              />
+                            )}
+                          </div>
+
                           <div className="project-overview px-3 py-1 flex flex-col h-[26%]">
-                            <div className="project-title font-medium text-[15px]">
-                              {project.name}
+                            <div className="flex w-full justify-between items-center mt-1">
+                              <div className="project-title font-medium text-[15px]">
+                                {project.name}
+                              </div>
+                              <div className="flex gap-1">
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteProject(String(project.id));
+                                  }}
+                                  className="edit-btn text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[red] hover:text-white rounded-full"
+                                >
+                                  Delete
+                                </div>
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setCurrProject(project);
+                                    setIsProjectEditFormOpen(true);
+                                  }}
+                                  className="edit-btn text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[#22C55E] hover:text-white rounded-full"
+                                >
+                                  Edit
+                                </div>
+                              </div>
                             </div>
                             <div className="project-desc truncate text-[13px]">
                               {project.description}
                             </div>
                           </div>
                         </div>
-                      ))}
-                      {projectModalOpen && jobseeker && (
-                        <ProjectModal
-                          close={projectModalClose}
-                          project={currProject}
-                        ></ProjectModal>
-                      )}
-                    </div>
+                      ))
+                    )}
+                    {isProjectEditFormOpen && (
+                      <ProjectFormModal
+                        type={"EDIT"}
+                        close={projectEditFormModalClose}
+                        updateData={{
+                          id: String(currProject.id),
+                          name: currProject.name,
+                          deployedLink: currProject.deployedLink? currProject.deployedLink:'',
+                          repoLink: currProject.repoLink??'',
+                          description: currProject.description,
+                          techStack: currProject.techStack,
+                          image:currProject.image??null
+                        }}
+                      ></ProjectFormModal>
+                    )}
+
+                    {projectModalOpen && jobseeker && (
+                      <ProjectModal
+                        close={projectModalClose}
+                        project={currProject}
+                      ></ProjectModal>
+                    )}
                   </div>
-                )
-              )}*/}
+                </div>
+              )}
+              
                {isExperienceLoading ? (
                 <>
-                
+
                 </>
               ) : (
                 <div className="experience-section pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col w-full items-center">

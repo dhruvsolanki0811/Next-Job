@@ -1,6 +1,6 @@
 "use client";
 import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
-import { ConnectionsList, Navbar } from "@/components/components";
+import { BottomBar, ConnectionsList, Navbar } from "@/components/components";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSort } from "react-icons/fa6";
@@ -81,6 +81,8 @@ function page() {
       <div className="scrollable-content-wrapper max-sm:h-[80vh] h-[90vh] w-full ">
         <ConnectionsList status={status.value}></ConnectionsList>
       </div>
+      <BottomBar></BottomBar>
+
     </>
   );
 }

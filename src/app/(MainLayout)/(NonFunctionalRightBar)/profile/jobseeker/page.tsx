@@ -2,7 +2,7 @@
 
 import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
 import JobseekerProfile from "@/components/JobseekerProfile/JobseekerProfile";
-import { Navbar } from "@/components/components";
+import { BottomBar, Navbar } from "@/components/components";
 import { useSession } from "next-auth/react";
 import React from "react";
 
@@ -16,6 +16,8 @@ function page() {
         {/* <CompanyDetails username={auth?.user.username}></CompanyDetails> */}
         <JobseekerProfile></JobseekerProfile>
       </div>
+      <BottomBar></BottomBar>
+
     </>
   );
 }

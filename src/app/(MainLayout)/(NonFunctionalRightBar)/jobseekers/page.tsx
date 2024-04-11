@@ -1,5 +1,5 @@
 "use client";
-import { JobseekerList, Navbar } from "@/components/components";
+import { BottomBar, JobseekerList, Navbar } from "@/components/components";
 import SearchSectionWrapper from "@/components/ui/SearchSectionWrapper";
 import { useFilterStore } from "@/store/filterStore";
 import React, { ChangeEvent, useEffect } from "react";
@@ -38,6 +38,8 @@ function page() {
         />
       </SearchSectionWrapper>
       <JobseekerList></JobseekerList>
+      <BottomBar></BottomBar>
+
     </>
   );
 }

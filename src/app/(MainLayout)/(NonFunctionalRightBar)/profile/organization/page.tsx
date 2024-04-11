@@ -1,7 +1,7 @@
 'use client'
 import CompanyProfile from '@/components/CompanyProfile/CompanyProfile'
 import { WithAuthOrg } from '@/components/HOC/withAuthOrg'
-import {  Navbar } from '@/components/components'
+import {  BottomBar, Navbar } from '@/components/components'
 import { useSession } from 'next-auth/react'
 import React from 'react'
 
@@ -15,6 +15,8 @@ function page() {
         {/* <CompanyDetails username={auth?.user.username}></CompanyDetails> */}
             <CompanyProfile></CompanyProfile>
         </div>
+        <BottomBar></BottomBar>
+
       </>
   )
 }

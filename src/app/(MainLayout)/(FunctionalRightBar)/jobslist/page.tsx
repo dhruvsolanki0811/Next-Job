@@ -1,17 +1,26 @@
 "use client";
-import { FilterForm, JobList, Navbar } from "@/components/components";
+import { WithAuthOrg } from "@/components/HOC/withAuthOrg";
+import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
+import {
+  BottomBar,
+  FilterForm,
+  JobList,
+  Navbar,
+} from "@/components/components";
 import SearchSectionWrapper from "@/components/ui/SearchSectionWrapper";
 import { useFetchAllJobs } from "@/hooks/useJobData";
 import { useFilterStore } from "@/store/filterStore";
+import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { AiFillFilter } from "react-icons/ai";
-import {  FaSort } from "react-icons/fa6";
-import {  IoCloseCircleSharp } from "react-icons/io5";
+import { FaSort } from "react-icons/fa6";
+import { IoCloseCircleSharp } from "react-icons/io5";
 interface statusType {
   name: string;
   value: string;
 }
 function page() {
+  
   const filters = useFilterStore((state) => state.filters);
   const setFilter = useFilterStore((state) => state.setFilter);
   const { refetch } = useFetchAllJobs();
@@ -145,10 +154,11 @@ function page() {
               <FilterForm></FilterForm>
             </div>
           </div>
+          <BottomBar></BottomBar>
         </>
       )}
     </>
   );
 }
 
-export default page;
+export default (page);

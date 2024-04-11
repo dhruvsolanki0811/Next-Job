@@ -85,7 +85,7 @@ function JobCard({ job, status }: { job: JobProfile; status?: Status }) {
               </div>
             )}
           </div>
-          {(authData?.user.role=='Organization') && (
+          {(authData?.user.role=='Organization' &&job.organizationId.toString()==(authData.user.id).toString()) && (
             <div className="applicant-btn flex text-[12px] items-center   gap-2  mt-2   ">
               <div onClick={(e)=>{
                 

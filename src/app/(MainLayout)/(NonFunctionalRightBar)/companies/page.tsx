@@ -1,5 +1,5 @@
 'use client'
-import {  CompanyList, Navbar } from "@/components/components";
+import {  BottomBar, CompanyList, Navbar } from "@/components/components";
 import { SearchSectionWrapper } from "@/components/ui/ui";
 import { useFilterStore } from "@/store/filterStore";
 import React, { ChangeEvent, useEffect } from "react";
@@ -40,6 +40,8 @@ function page() {
         />
       </SearchSectionWrapper>
       <CompanyList></CompanyList>
+      <BottomBar></BottomBar>
+
     </>
   );
 }

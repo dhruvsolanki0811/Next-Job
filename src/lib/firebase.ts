@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 export const uploadFileFirebase = async (
   userType: 'jobseeker'|'organization',
-  fileType:'resume'|'profilepic',
+  fileType:'resume'|'profilepic'|'project',
   file: File    
 ) => {
   const reference = ref(storage, `${userType}/${fileType}/${file.name}-${randomUUID()}`);

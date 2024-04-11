@@ -48,3 +48,12 @@ export const JobProfileSchema = z.object({
   location: z.string({required_error:"Location is required"}),
   skillsRequired: z.array(z.string(),{required_error:"Skills are required"}),
 });
+
+
+export const ProjectSchema = z.object({
+  name: z.string().min(1).max(255),
+  description: z.string(),
+  deployedLink: z.string().optional(),
+  repoLink: z.string().optional(),
+})
+

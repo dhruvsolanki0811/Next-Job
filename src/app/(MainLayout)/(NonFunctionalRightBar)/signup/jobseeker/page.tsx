@@ -1,6 +1,6 @@
 'use client'
 import { WithoutAuth } from "@/components/HOC/withOutAuth";
-import { JobseekerRegistrationForm, Navbar } from "@/components/components";
+import { BottomBar, JobseekerRegistrationForm, Navbar } from "@/components/components";
 import React from "react";
 
 function page() {
@@ -10,6 +10,7 @@ function page() {
       <div className="scrollable-content-wrapper max-sm:h-[80vh] h-[90vh] w-full flex  justify-center">
         <JobseekerRegistrationForm></JobseekerRegistrationForm>
       </div>
+      <BottomBar/>
     </>
   );
 }

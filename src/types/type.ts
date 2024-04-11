@@ -112,3 +112,17 @@ export interface Experience {
   jobSeeker: JobSeeker; // Assuming JobSeeker is another interface representing the JobSeeker model
   jobSeekerId: number;
 }
+
+
+export interface Project {
+  id: number;
+  name: string;
+  image?: string | null;
+  description: string;
+  deployedLink?: string | null;
+  repoLink?: string | null;
+  techStack: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  jobSeekerId: number;
+}

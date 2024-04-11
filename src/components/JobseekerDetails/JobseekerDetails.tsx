@@ -1,8 +1,8 @@
 "use client";
-import { jobseekerPlaceHolder } from "@/assets/assets";
+import { jobseekerPlaceHolder, projectPlaceholder } from "@/assets/assets";
 import { useFetchSingleJobseekers } from "@/hooks/useJobseekerData";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { DevIcon } from "../components";
 import {
@@ -10,13 +10,22 @@ import {
   useHandleConnection,
 } from "@/hooks/useConnectionData";
 import { useSession } from "next-auth/react";
-import { ConnectionStatus } from "@/types/type";
+import { ConnectionStatus, Project } from "@/types/type";
 import { redirect } from "next/navigation";
 import Loader from "../ui/Loader";
 import { useFetchExperienceByUser } from "@/hooks/useExperienceData";
+import { useFetchProjectByUser } from "@/hooks/useProjectData";
+import ProjectModal from "../ProjectModal/ProjectModal";
 
 function JobseekerDetails({ username }: { username: string }) {
   const { data: auth, status } = useSession();
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [currProject, setCurrProject] = useState<Project>({} as Project);
+
+  const projectModalClose = () => {
+    setCurrProject({} as Project);
+    setProjectModalOpen(false);
+  };
 
   useEffect(() => {
     if (
@@ -37,6 +46,8 @@ function JobseekerDetails({ username }: { username: string }) {
   const { data: experiences, isLoading: isExperienceLoading } =
   useFetchExperienceByUser(jobseeker?.id.toString());
 
+  const { data: projects, isLoading: projectLoading } =
+    useFetchProjectByUser(jobseeker?.id.toString());
 
 
   const handleConnectionRequest = (connectionRequest: ConnectionStatus) => {
@@ -170,7 +181,7 @@ function JobseekerDetails({ username }: { username: string }) {
                 {jobseeker?.description}
               </div>
             </div>
-            {/* {projectLoading ? (
+            {projectLoading ? (
                 <></>
               ) : (
                 projects &&
@@ -189,19 +200,19 @@ function JobseekerDetails({ username }: { username: string }) {
                           }}
                           className="project-card cursor-pointer border-[1px] overflow-hidden rounded-[10px] border-solid border-[#e1e4e8] w-[13.4rem] max-sm:w-full max-lg:w-full max-md:w-[13.4rem] h-[14rem] "
                         >
-                          <div className="project-img h-[74%] border-b-[lgt-grey] border-b-solid border-b-[2px]">
+                          <div className="relative project-img h-[74%] border-b-[lgt-grey] border-b-solid border-b-[2px]">
                           {project.image?<img
                               className="object-cover h-full w-full  "
                               src={project.image}
                               alt=""
-                            />:<img
+                            />:<Image
                             className="object-fill h-full w-full  "
-                            src={unknownProject}
+                            src={projectPlaceholder}
                             alt=""
                           />}
-                          </div> */}
+                          </div>
             
-                          {/* <div className="project-overview px-3 py-1 flex flex-col h-[26%]">
+                          <div className="project-overview px-3 py-1 flex flex-col h-[26%]">
                             <div className="project-title font-medium text-[15px]">
                               {project.name}
                             </div>
@@ -220,7 +231,7 @@ function JobseekerDetails({ username }: { username: string }) {
                     </div>
                   </div>
                 )
-              )} */}
+              )}
               {isExperienceLoading ? (
                 <></>
               ) : (

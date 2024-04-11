@@ -1,6 +1,6 @@
 "use client";
 import { WithAuthSeeker } from "@/components/HOC/withAuthSeeker";
-import {AppliedJobList} from "@/components/components";
+import {AppliedJobList, BottomBar} from "@/components/components";
 import { JobList, Navbar } from "@/components/components";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSort } from "react-icons/fa6";
@@ -75,7 +75,8 @@ function page() {
       <div className="scrollable-content-wrapper max-sm:h-[80vh] h-[90vh] w-full ">
         <AppliedJobList status={status.value}/>
       </div>
-    </>
+      <BottomBar></BottomBar>
+          </>
   );
 }
 

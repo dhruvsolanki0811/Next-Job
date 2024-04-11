@@ -1,6 +1,6 @@
 'use client'
 import { WithAuthOrg } from '@/components/HOC/withAuthOrg'
-import { Navbar, PostedJobsList } from '@/components/components'
+import { BottomBar, Navbar, PostedJobsList } from '@/components/components'
 import React from 'react'
 
 function page({ params }: { params: { orgId: number }}) {
@@ -10,6 +10,8 @@ function page({ params }: { params: { orgId: number }}) {
         <div className="scrollable-content-wrapper max-sm:h-[80vh] h-[90vh] w-full ">
           <PostedJobsList ></PostedJobsList>
         </div>
+        <BottomBar></BottomBar>
+
     </>
   )
 }
