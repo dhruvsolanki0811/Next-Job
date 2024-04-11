@@ -105,7 +105,6 @@ function JobseekerProfileEdit() {
       toast.error("Invalid email format.");
       return;
     }
-    console.log(formData);
     updateDetail(formData);
   };
   //Image operation
@@ -128,7 +127,6 @@ function JobseekerProfileEdit() {
         });
         setChangedProfilePic(null);
         toast.success("Updated Successfully");
-        console.log(currUser);
         await queryClient.refetchQueries({
           queryKey: ["me", authData?.user.username],
         });
@@ -148,7 +146,6 @@ function JobseekerProfileEdit() {
       }
       event.target.value = ""; // Clear the input field
     }
-    console.log(changedProfilePic);
   };
   const handleRemoveImage = () => {
     // Clear the selected image and preview
@@ -181,7 +178,6 @@ function JobseekerProfileEdit() {
       });
       setChangedResume(null);
       toast.success("Updated Successfully");
-      console.log(currUser);
       await queryClient.refetchQueries({
         queryKey: ["me", authData?.user.username],
       });
@@ -198,7 +194,6 @@ function JobseekerProfileEdit() {
       toast.error("Please select a PDF file.");
       event.target.value = ""; // Clear the input field
     }
-    console.log(changedResume);
   };
   const handleRemoveResume = () => {
     // Clear the selected image and preview

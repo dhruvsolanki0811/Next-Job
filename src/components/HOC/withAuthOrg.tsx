@@ -19,7 +19,6 @@ export const WithAuthOrg = (Component: any) => {
         redirect("/profile/jobseeker");
       }
     }, [status]);
-    console.log(status,authData,"opop")
     if (status == "loading" || status == 'unauthenticated') {
        return <></> ;
       }

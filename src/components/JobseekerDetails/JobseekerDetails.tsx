@@ -13,9 +13,11 @@ import { useSession } from "next-auth/react";
 import { ConnectionStatus } from "@/types/type";
 import { redirect } from "next/navigation";
 import Loader from "../ui/Loader";
+import { useFetchExperienceByUser } from "@/hooks/useExperienceData";
 
 function JobseekerDetails({ username }: { username: string }) {
   const { data: auth, status } = useSession();
+
   useEffect(() => {
     if (
       status != "loading" &&
@@ -30,6 +32,13 @@ function JobseekerDetails({ username }: { username: string }) {
   const { data: connectionData, isLoading: connectionLoading } =
     useFetchConnectionStatus(jobseeker?.id);
   const { mutate: handleConnection, isPending } = useHandleConnection();
+
+
+  const { data: experiences, isLoading: isExperienceLoading } =
+  useFetchExperienceByUser(jobseeker?.id.toString());
+
+
+
   const handleConnectionRequest = (connectionRequest: ConnectionStatus) => {
     if (jobseeker?.id && connectionData) {
       handleConnection({
@@ -51,7 +60,7 @@ function JobseekerDetails({ username }: { username: string }) {
   };
   return (
     <>
-      {isLoading ? (
+      {isLoading||isExperienceLoading ? (
         <div className=" h-full w-full  flex justify-center items-center">
           <Loader size="30px"></Loader>
         </div>
@@ -191,8 +200,8 @@ function JobseekerDetails({ username }: { username: string }) {
                             alt=""
                           />}
                           </div> */}
-            {/* 
-                          <div className="project-overview px-3 py-1 flex flex-col h-[26%]">
+            
+                          {/* <div className="project-overview px-3 py-1 flex flex-col h-[26%]">
                             <div className="project-title font-medium text-[15px]">
                               {project.name}
                             </div>
@@ -211,7 +220,7 @@ function JobseekerDetails({ username }: { username: string }) {
                     </div>
                   </div>
                 )
-              )}
+              )} */}
               {isExperienceLoading ? (
                 <></>
               ) : (
@@ -228,11 +237,11 @@ function JobseekerDetails({ username }: { username: string }) {
                             <div className="role font-medium text-[14px] w-full flex justify-between">
                               <span>{experience.role}</span>{" "}
                               <span>
-                                {`${experience.start_month} ${experience.start_year}` +
+                                {`${experience.startMonth} ${experience.startYear}` +
                                   "-" +
                                   `${
-                                    experience.end_month || experience.end_year
-                                      ? `${experience.end_month} ${experience.end_year}`
+                                    experience.endMonth || experience.endYear
+                                      ? `${experience.endMonth} ${experience.endYear}`
                                       : `Present`
                                   }`}
                               </span>
@@ -245,7 +254,7 @@ function JobseekerDetails({ username }: { username: string }) {
                     </div>
                   </div>
                 )
-              )} */}
+              )} 
           </div>
         )
       )}

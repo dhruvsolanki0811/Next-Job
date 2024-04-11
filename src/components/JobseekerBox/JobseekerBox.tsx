@@ -25,8 +25,6 @@ function JobseekerBox({
   const { mutate: handleApplication, isPending } = useHandleSeekerApplication();
   const { mutate: handleConnection, isPending: connectionLoading } =
     useHandleConnection();
-  console.log(connectionStatus);
-  console.log(jobseeker.jobApplications, jobseeker, "oka");
 
   return (
     <>
@@ -171,8 +169,6 @@ function JobseekerBox({
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log("ma");
-                      console.log();
                       handleApplication({
                         applicationData: jobseeker.jobApplications[0],
                         status: "accepted",
@@ -185,8 +181,6 @@ function JobseekerBox({
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log("ra");
-                      console.log(jobseeker.jobApplications[0], "beh");
                       handleApplication({
                         applicationData: jobseeker.jobApplications[0],
                         status: "rejected",

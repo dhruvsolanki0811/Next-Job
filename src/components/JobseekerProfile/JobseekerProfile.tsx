@@ -1,25 +1,43 @@
 import { jobseekerPlaceHolder } from "@/assets/assets";
 import { appendToBaseUrl } from "@/hooks/hooks";
-import { JobSeeker } from "@/types/type";
+import { Experience, JobSeeker } from "@/types/type";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { DevIcon } from "../components";
 import { TbEdit } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import { useGetLoggedInUser } from "@/hooks/useJobseekerData";
 import Loader from "../ui/Loader";
+import { useDeleteExperience, useFetchExperienceByUser } from "@/hooks/useExperienceData";
+import { IoAddCircleSharp } from "react-icons/io5";
+import ExperienceFormData from "../ExperienceFormData/ExperienceFormData";
 
 function JobseekerProfile() {
   const router = useRouter();
   const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useGetLoggedInUser();
+  const {mutate:deleteExperience,isPending:isExperienceDeleteLoading}=useDeleteExperience()
+
+  const { data: experiences, isLoading: isExperienceLoading } =
+  useFetchExperienceByUser(authData?.user.id.toString());
+  const [isExperienceFormOpen, setIsExperienceFormOpen] = useState(false);
+  const experienceFormModalClose = () => {
+    setIsExperienceFormOpen(false);
+  };
+  const [currExperience, setCurrExperience] = useState<Experience>({} as Experience);
+
+  const [isExperienceEditFormOpen, setIsExperienceEditFormOpen] = useState(false);
+  const experienceEditFormModalClose = () => {
+    setCurrExperience({} as Experience)
+    setIsExperienceEditFormOpen(false);
+  };
   return (
     <>
-      {isLoading ? (
+      {isLoading ||isExperienceLoading? (
         <>
           {" "}
           <div className=" h-full   flex items-center justify-center gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -143,41 +161,70 @@ function JobseekerProfile() {
                     </div>
                   </div>
                 )
-              )}
-              {isExperienceLoading ? (
-                <></>
+              )}*/}
+               {isExperienceLoading ? (
+                <>
+                
+                </>
               ) : (
-                experiences &&
-                experiences.length > 0 && (
-                  <div className="experience-section pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col w-full items-center">
-                    <div className="header-experience w-[max-content] text-[14px]">
-                      Experience
-                    </div>
-                    <div className="experience-list flex flex-col gap-2 w-full mt-1 px-7">
-                      {experiences &&
-                        experiences.map((experience,key) => (
+                <div className="experience-section pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col w-full items-center">
+                  <div  className="header-experience w-[max-content] text-[14px]">
+                    Experience
+                  </div>
+                  <div onClick={()=>setIsExperienceFormOpen(true)} className="header-experience  cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]">
+                    Add Experience <IoAddCircleSharp className="text-[20px]" />
+                  </div>
+                  <div className="experience-list flex flex-col gap-2 w-full mt-1 px-7">
+                    {isExperienceDeleteLoading?<>
+                      <div className="loader-container h-[5rem] ">
+                        <Loader size="20px"></Loader>
+                      </div>
+                    </>:experiences &&
+                      experiences.map((experience,key) => (
                         <div key={key} className="card flex flex-col mt-4 ">
-                            <div className="role font-medium text-[14px] w-full flex justify-between">
-                              <span>{experience.role}</span>{" "}
-                              <span>
-                                {`${experience.start_month} ${experience.start_year}` +
-                                  "-" +
-                                  `${
-                                    experience.end_month || experience.end_year
-                                      ? `${experience.end_month} ${experience.end_year}`
-                                      : `Present`
-                                  }`}
-                              </span>
-                            </div>
+                          <div className="role font-medium text-[14px] w-full flex justify-between">
+                            <span>{experience.role}</span>{" "}
+                            <span>
+                              {`${experience.startMonth} ${experience.startYear}` +
+                                "-" +
+                                `${
+                                  experience.endMonth || experience.endYear
+                                    ? `${experience.endMonth} ${experience.endYear}`
+                                    : `Present`
+                                }`}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center ">
                             <div className="company-name text-[13px]">
-                              {experience.company}{" "}
+                              {experience.company}
+                            </div>
+                            <div className="flex gap-2">
+                              <div
+                                onClick={()=>{
+                                  deleteExperience(String(experience.id))
+                                }}
+                                className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[red] hover:text-white rounded-full"
+                              >
+                                Delete
+                              </div>
+                              <div
+                                onClick={()=>{
+                                  setCurrExperience(experience)
+                                  setIsExperienceEditFormOpen(true)
+                                }}
+                                className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[#22C55E] hover:text-white rounded-full"
+                              >
+                                Edit
+                              </div>
                             </div>
                           </div>
+                        </div>
                         ))}
-                    </div>
+                        {isExperienceEditFormOpen&& <ExperienceFormData type="EDIT" close={experienceEditFormModalClose} updateData={{id:String(currExperience.id),role:currExperience.role,company:currExperience.company,startMonth:currExperience.startMonth,startYear:String(currExperience.startYear),endMonth:currExperience.endMonth||"",endYear:currExperience.endYear?String(currExperience.endYear):""}}></ExperienceFormData>}
+                        {isExperienceFormOpen&& <ExperienceFormData type="ADD" close={experienceFormModalClose} ></ExperienceFormData>}
                   </div>
-                )
-              )} */}
+                </div>
+              )} 
           </div>
         )
       )}

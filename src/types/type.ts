@@ -99,3 +99,16 @@ export interface Connection  {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Experience {
+  id?: number; // The ID is optional as it might not be available during creation
+  role: string;
+  company: string;
+  techStack: string[];
+  startMonth: string;
+  startYear: number;
+  endMonth?: string | null; // End month is nullable as it might not be provided
+  endYear?: number | null; // End year is nullable as it might not be provided
+  jobSeeker: JobSeeker; // Assuming JobSeeker is another interface representing the JobSeeker model
+  jobSeekerId: number;
+}

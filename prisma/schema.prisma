@@ -49,7 +49,7 @@ model JobSeeker {
   updatedAt         DateTime @updatedAt
   followedBy Connections[] @relation("followedBy")
   following  Connections[] @relation("following")
-
+  experiences Experience[]
 }
 
 model JobProfile {
@@ -103,3 +103,15 @@ model Connections {
   @@id([followingId, followedById])
 }
 
+model Experience {
+  id          Int       @id @default(autoincrement())
+  role        String
+  company     String
+  techStack   Json[]
+  startMonth  String
+  startYear   Int
+  endMonth    String?
+  endYear     Int?
+  jobSeeker   JobSeeker @relation(fields: [jobSeekerId], references: [id])
+  jobSeekerId Int
+}

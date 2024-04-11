@@ -10,7 +10,6 @@ export const useFetchConnections=({status}:{status:string})=>{
     const{data:authData}=useSession()
     const fetchAllConnections=async()=>{
         const response =await axios.get(appendToBaseUrl(`connection/connections/${status}`))
-        console.log('connections',authData?.user.id.toString(),status)
         return response.data.connections
     }   
     return useQuery({queryKey:['connections',authData?.user.id.toString(),status],
@@ -63,7 +62,6 @@ export const useHandleConnection=()=>{
           await queryClient.invalidateQueries({
               queryKey:['connection-status',(authData?.user.id.toString()),(userId &&userId.toString())]                    
             })
-            console.log('connections',authData?.user.id.toString(),action)
           await queryClient.invalidateQueries({queryKey:['connections',authData?.user.id.toString(),'accepted']})
           await queryClient.invalidateQueries({queryKey:['connections',authData?.user.id.toString(),'requests']})
           await queryClient.invalidateQueries({queryKey:['connections',authData?.user.id.toString(),'requested']})
