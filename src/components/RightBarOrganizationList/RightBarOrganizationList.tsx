@@ -12,7 +12,7 @@ function RightBarOrganizationList() {
   const router=useRouter()
   const {data:authData,status}=useSession()
   const [randNum] = useState<number>(Math.random);
-  const { data: organizations } = useFetchAllOrganizations();
+  const { data: organizations } = useFetchAllOrganizations('org-for-section');
   return (
     <>
       <div className="people-rec-section  w-full flex flex-col mt-6 ">

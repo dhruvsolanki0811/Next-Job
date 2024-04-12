@@ -12,7 +12,7 @@ function RightBarJobseekerList() {
   const router=useRouter()
   const {status,data:authData} =useSession()
   const [randNum] = useState<number>(Math.random);
-  const { data: jobseekers } = useFetchAllJobseekers();
+  const { data: jobseekers } = useFetchAllJobseekers('seekers-for-section');
   return (
     <>
       <div className="people-rec-section  w-full flex flex-col mt-6 ">

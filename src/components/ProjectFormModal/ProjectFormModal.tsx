@@ -27,8 +27,8 @@ function ProjectFormModal({
   updateData?: {
     id: string;
     name: string;
-    deployedLink: string;
-    repoLink: string;
+    deployedLink?: string;
+    repoLink?: string;
     description: string;
     techStack: string[];
     image: string|null;

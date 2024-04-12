@@ -9,6 +9,7 @@ import axios, { AxiosError, isAxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import Loader from "../ui/Loader";
+import { signIn } from "next-auth/react";
 interface SeekerFormData {
   username: string;
   firstName: string;
@@ -47,7 +48,9 @@ const createJobseeker = async (data: SeekerFormData) => {
         "Content-Type": `multipart/form-data`,
       },
     });
+    const updatedUser=await response.data.jobseeker
     toast.info("Welldone you are now part of Jobcom community");
+    return updatedUser
   } catch (error) {
     if (isAxiosError(error) && error.response?.status == 403) {
       if (error.response?.data.error.name == "ZodError") {
@@ -75,7 +78,13 @@ function JobseekerRegistrationForm() {
     onError(error) {
       console.log(error);
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      signIn('credentials',{
+        email: data.email,
+        password: formData.password,
+        type: 'Jobseeker',
+        redirect: false,  
+      })
       setFormData({
         username: "",
         firstName: "",
@@ -91,6 +100,7 @@ function JobseekerRegistrationForm() {
       });
       setSelectedImagePreview(null);
       queryClient.invalidateQueries({ queryKey: ["all-jobseekers"] });
+      queryClient.invalidateQueries({ queryKey: ["seekers-for-section"] });
     },
   });
 

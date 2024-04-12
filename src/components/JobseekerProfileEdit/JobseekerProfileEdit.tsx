@@ -21,7 +21,7 @@ interface SeekerFormData {
 }
 
 function JobseekerProfileEdit() {
-  const { data: authData } = useSession();
+  const { data: authData, update } = useSession();
   const [inputListValue, setListValue] = useState<string>("");
   const { data: currUser, isLoading } = useGetLoggedInUser();
 
@@ -114,9 +114,24 @@ function JobseekerProfileEdit() {
       mutationFn: async (data: File) => {
         const formData = new FormData();
         formData.append("profilePic", data);
-        axios.put(appendToBaseUrl("user/jobseeker/edit/profilepic"), formData, {
-          headers: {
-            "Content-Type": `multipart/form-data`,
+        const response = await axios.put(
+          appendToBaseUrl("user/jobseeker/edit/profilepic"),
+          formData,
+          {
+            headers: {
+              "Content-Type": `multipart/form-data`,
+            },
+          }
+        );
+        const updatedUser = await response.data;
+        console.log(response, updatedUser.user.profilePic);
+        update({
+          user: {
+            username: updatedUser.user.username,
+            role: "Jobseeker",
+            id: updatedUser.user.id,
+            image: updatedUser.user.profilePic,
+            name: updatedUser.user.name,
           },
         });
       },
@@ -212,7 +227,7 @@ function JobseekerProfileEdit() {
         <div className="flex flex-col   py-3  border-b-[1px] border-b-[lgt-grey]  border-b-solid border-t-[1px] border-t-[lgt-grey]  border-t-solid  mt-4 gap-2 justify-center items-center">
           <div className="header text-[14px] ">Edit The Profile Pic here</div>
           <div className="flex ">
-            {profilePicLoading||isLoading ? (
+            {profilePicLoading || isLoading ? (
               <Loader size="30px"></Loader>
             ) : // <Loader message=""></Loader>
             !changedProfilePic ? (
@@ -295,7 +310,7 @@ function JobseekerProfileEdit() {
             onChange={handleFileChange}
           />
           <div className="flex flex-col items-center text-[13px] text-[#22C55E]">
-            {resumeLoading ||isLoading? (
+            {resumeLoading || isLoading ? (
               <Loader size="30px"></Loader>
             ) : (
               <div className="flex items-center gap-2">

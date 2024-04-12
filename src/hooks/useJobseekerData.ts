@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { appendToBaseUrl } from "./hooks";
 import { useFilterStore } from "@/store/filterStore";
 
-export const useFetchAllJobseekers = () => {
+export const useFetchAllJobseekers = (component?:string) => {
   const { filters } = useFilterStore();
   const fetchAllJobseekers = async (): Promise<JobSeeker[]> => {
     const response = await axios.get(
@@ -15,7 +15,7 @@ export const useFetchAllJobseekers = () => {
   };
 
   return useQuery({
-    queryKey: ["all-jobseekers"],
+    queryKey: [component?component:"all-jobseekers"],
     queryFn: fetchAllJobseekers,
   });
 };

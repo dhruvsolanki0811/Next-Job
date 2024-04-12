@@ -9,16 +9,23 @@ import { TbEdit } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import { useGetLoggedInUser } from "@/hooks/useJobseekerData";
 import Loader from "../ui/Loader";
-import { useDeleteExperience, useFetchExperienceByUser } from "@/hooks/useExperienceData";
+import {
+  useDeleteExperience,
+  useFetchExperienceByUser,
+} from "@/hooks/useExperienceData";
 import { IoAddCircleSharp } from "react-icons/io5";
 import ExperienceFormData from "../ExperienceFormData/ExperienceFormData";
 import ProjectModal from "../ProjectModal/ProjectModal";
-import { useDeleteProject, useFetchProjectByUser } from "@/hooks/useProjectData";
+import {
+  useDeleteProject,
+  useFetchProjectByUser,
+} from "@/hooks/useProjectData";
 import ProjectFormModal from "../ProjectFormModal/ProjectFormModal";
 
 function JobseekerProfile() {
   const router = useRouter();
-  const { mutate: deleteProject, isPending:deleteLoading} = useDeleteProject();
+  const { mutate: deleteProject, isPending: deleteLoading } =
+    useDeleteProject();
   const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
   const projectFormModalClose = () => {
     setIsProjectFormOpen(false);
@@ -35,29 +42,34 @@ function JobseekerProfile() {
     setCurrProject({} as Project);
     setProjectModalOpen(false);
   };
-  
+
   const { data: authData } = useSession();
   const { data: jobseeker, isLoading } = useGetLoggedInUser();
-  const {mutate:deleteExperience,isPending:isExperienceDeleteLoading}=useDeleteExperience()
+  const { mutate: deleteExperience, isPending: isExperienceDeleteLoading } =
+    useDeleteExperience();
 
   const { data: experiences, isLoading: isExperienceLoading } =
-  useFetchExperienceByUser(authData?.user.id.toString());
-  const { data: projects, isLoading: projectLoading } =
-  useFetchProjectByUser(authData?.user.id.toString());
+    useFetchExperienceByUser(authData?.user.id.toString());
+  const { data: projects, isLoading: projectLoading } = useFetchProjectByUser(
+    authData?.user.id.toString()
+  );
   const [isExperienceFormOpen, setIsExperienceFormOpen] = useState(false);
   const experienceFormModalClose = () => {
     setIsExperienceFormOpen(false);
   };
-  const [currExperience, setCurrExperience] = useState<Experience>({} as Experience);
+  const [currExperience, setCurrExperience] = useState<Experience>(
+    {} as Experience
+  );
 
-  const [isExperienceEditFormOpen, setIsExperienceEditFormOpen] = useState(false);
+  const [isExperienceEditFormOpen, setIsExperienceEditFormOpen] =
+    useState(false);
   const experienceEditFormModalClose = () => {
-    setCurrExperience({} as Experience)
+    setCurrExperience({} as Experience);
     setIsExperienceEditFormOpen(false);
   };
   return (
     <>
-      {isLoading ||isExperienceLoading? (
+      {isLoading || isExperienceLoading ? (
         <>
           {" "}
           <div className=" h-full   flex items-center justify-center gap-2 w-full overflow-x-none overflow-y-auto ">
@@ -65,7 +77,7 @@ function JobseekerProfile() {
           </div>
         </>
       ) : (
-        (jobseeker )&& (
+        jobseeker && (
           <div className=" h-full   flex flex-col gap-2 w-full overflow-x-none overflow-y-auto ">
             <div className="intro-sec border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col  w-full justify-center mt-5 items-center pb-3">
               <div className="image-container flex justify-center items-center h-[5rem] w-[5rem] border-[2px] border-solid border-[#22C55E] p-[1px]">
@@ -131,8 +143,25 @@ function JobseekerProfile() {
                 {jobseeker?.description}
               </div>
             </div>
-            {projectLoading ? (
-                <></>
+            {
+              // true
+              projectLoading || deleteLoading ? (
+                <>
+                  <div className="personal-projects w-full flex flex-col items-center  border-b-[1px] border-b-solid border-b-[#e1e4e8]">
+                    <div className="header-experience w-[max-content] text-[14px]">
+                      Projects
+                    </div>
+                    <div
+                      onClick={() => setIsProjectFormOpen(true)}
+                      className="header-experience cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]"
+                    >
+                      Add Project <IoAddCircleSharp className="text-[20px]" />
+                    </div>
+                    <div className="py-5">
+                      <Loader size="25px"></Loader>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <div className="personal-projects w-full flex flex-col items-center  border-b-[1px] border-b-solid border-b-[#e1e4e8]">
                   <div className="header-experience w-[max-content] text-[14px]">
@@ -157,9 +186,9 @@ function JobseekerProfile() {
                       </div>
                     ) : (
                       projects &&
-                      projects.map((project,key) => (
+                      projects.map((project, key) => (
                         <div
-                        key={key}
+                          key={key}
                           onClick={() => {
                             setCurrProject(project);
                             setProjectModalOpen(true);
@@ -223,11 +252,13 @@ function JobseekerProfile() {
                         updateData={{
                           id: String(currProject.id),
                           name: currProject.name,
-                          deployedLink: currProject.deployedLink? currProject.deployedLink:'',
-                          repoLink: currProject.repoLink??'',
+                          deployedLink: currProject.deployedLink
+                            ? currProject.deployedLink
+                            : "",
+                          repoLink: currProject.repoLink ?? "",
                           description: currProject.description,
                           techStack: currProject.techStack,
-                          image:currProject.image??null
+                          image: currProject.image ?? null,
                         }}
                       ></ProjectFormModal>
                     )}
@@ -240,71 +271,114 @@ function JobseekerProfile() {
                     )}
                   </div>
                 </div>
-              )}
-              
-               {isExperienceLoading ? (
-                <>
+              )
+            }
 
-                </>
-              ) : (
+            {
+            isExperienceLoading ? (
+              <>
                 <div className="experience-section pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col w-full items-center">
-                  <div  className="header-experience w-[max-content] text-[14px]">
+                  <div className="header-experience w-[max-content] text-[14px]">
                     Experience
                   </div>
-                  <div onClick={()=>setIsExperienceFormOpen(true)} className="header-experience  cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]">
+                  <div
+                    onClick={() => setIsExperienceFormOpen(true)}
+                    className="header-experience  cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]"
+                  >
                     Add Experience <IoAddCircleSharp className="text-[20px]" />
                   </div>
-                  <div className="experience-list flex flex-col gap-2 w-full mt-1 px-7">
-                    {isExperienceDeleteLoading?<>
+                  <div className="py-5 flex justify-center w-full">
+                    <Loader size="25px"></Loader>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="experience-section pb-3 border-b-[1px] border-b-solid border-b-[#e1e4e8] flex flex-col w-full items-center">
+                <div className="header-experience w-[max-content] text-[14px]">
+                  Experience
+                </div>
+                <div
+                  onClick={() => setIsExperienceFormOpen(true)}
+                  className="header-experience  cursor-pointer flex gap-2 items-center mt-3 rounded-[10px] border-solid border-[1px] border-[lgt-grey] px-2 py-1  w-[max-content] text-[14px]"
+                >
+                  Add Experience <IoAddCircleSharp className="text-[20px]" />
+                </div>
+                <div className="experience-list flex flex-col gap-2 w-full mt-1 px-7">
+                  {isExperienceDeleteLoading ? (
+                    <>
                       <div className="loader-container h-[5rem] ">
                         <Loader size="20px"></Loader>
                       </div>
-                    </>:experiences &&
-                      experiences.map((experience,key) => (
-                        <div key={key} className="card flex flex-col mt-4 ">
-                          <div className="role font-medium text-[14px] w-full flex justify-between">
-                            <span>{experience.role}</span>{" "}
-                            <span>
-                              {`${experience.startMonth} ${experience.startYear}` +
-                                "-" +
-                                `${
-                                  experience.endMonth || experience.endYear
-                                    ? `${experience.endMonth} ${experience.endYear}`
-                                    : `Present`
-                                }`}
-                            </span>
+                    </>
+                  ) : (
+                    experiences &&
+                    experiences.map((experience, key) => (
+                      <div key={key} className="card flex flex-col mt-4 ">
+                        <div className="role font-medium text-[14px] w-full flex justify-between">
+                          <span>{experience.role}</span>{" "}
+                          <span>
+                            {`${experience.startMonth} ${experience.startYear}` +
+                              "-" +
+                              `${
+                                experience.endMonth || experience.endYear
+                                  ? `${experience.endMonth} ${experience.endYear}`
+                                  : `Present`
+                              }`}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center ">
+                          <div className="company-name text-[13px]">
+                            {experience.company}
                           </div>
-                          <div className="flex justify-between items-center ">
-                            <div className="company-name text-[13px]">
-                              {experience.company}
+                          <div className="flex gap-2">
+                            <div
+                              onClick={() => {
+                                deleteExperience(String(experience.id));
+                              }}
+                              className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[red] hover:text-white rounded-full"
+                            >
+                              Delete
                             </div>
-                            <div className="flex gap-2">
-                              <div
-                                onClick={()=>{
-                                  deleteExperience(String(experience.id))
-                                }}
-                                className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[red] hover:text-white rounded-full"
-                              >
-                                Delete
-                              </div>
-                              <div
-                                onClick={()=>{
-                                  setCurrExperience(experience)
-                                  setIsExperienceEditFormOpen(true)
-                                }}
-                                className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[#22C55E] hover:text-white rounded-full"
-                              >
-                                Edit
-                              </div>
+                            <div
+                              onClick={() => {
+                                setCurrExperience(experience);
+                                setIsExperienceEditFormOpen(true);
+                              }}
+                              className="edit-btn cursor-pointer text-[14px] border-[1px] border-solid border-[lgt-grey] px-2 hover:bg-[#22C55E] hover:text-white rounded-full"
+                            >
+                              Edit
                             </div>
                           </div>
                         </div>
-                        ))}
-                        {isExperienceEditFormOpen&& <ExperienceFormData type="EDIT" close={experienceEditFormModalClose} updateData={{id:String(currExperience.id),role:currExperience.role,company:currExperience.company,startMonth:currExperience.startMonth,startYear:String(currExperience.startYear),endMonth:currExperience.endMonth||"",endYear:currExperience.endYear?String(currExperience.endYear):""}}></ExperienceFormData>}
-                        {isExperienceFormOpen&& <ExperienceFormData type="ADD" close={experienceFormModalClose} ></ExperienceFormData>}
-                  </div>
+                      </div>
+                    ))
+                  )}
+                  {isExperienceEditFormOpen && (
+                    <ExperienceFormData
+                      type="EDIT"
+                      close={experienceEditFormModalClose}
+                      updateData={{
+                        id: String(currExperience.id),
+                        role: currExperience.role,
+                        company: currExperience.company,
+                        startMonth: currExperience.startMonth,
+                        startYear: String(currExperience.startYear),
+                        endMonth: currExperience.endMonth || "",
+                        endYear: currExperience.endYear
+                          ? String(currExperience.endYear)
+                          : "",
+                      }}
+                    ></ExperienceFormData>
+                  )}
+                  {isExperienceFormOpen && (
+                    <ExperienceFormData
+                      type="ADD"
+                      close={experienceFormModalClose}
+                    ></ExperienceFormData>
+                  )}
                 </div>
-              )} 
+              </div>
+            )}
           </div>
         )
       )}

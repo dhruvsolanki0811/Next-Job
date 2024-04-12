@@ -18,7 +18,7 @@ interface OrgFormData {
   foundedAt: string;
 }
 function OrganizationProfileEdit() {
-  const { data: authData } = useSession();
+  const { data: authData,update } = useSession();
   const { data: currUser, isLoading } = useGetLoggedInOrganization();
   const [formData, setFormData] = useState<OrgFormData>({
     email: "",
@@ -88,9 +88,19 @@ function OrganizationProfileEdit() {
         const formData = new FormData();
         formData.append("profilePic", data);
         
-        await axios.put(appendToBaseUrl("user/organization/edit/profilepic"), formData, {
+        const response=await axios.put(appendToBaseUrl("user/organization/edit/profilepic"), formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
+          },
+        });
+        const updatedUser=await response.data
+        update({
+          user: {
+            username: updatedUser.user.username,
+            role: "Organization",
+            id: updatedUser.user.id,
+            image: updatedUser.user.profilePic,
+            name: updatedUser.user.name,
           },
         });
       },
@@ -104,7 +114,6 @@ function OrganizationProfileEdit() {
         await queryClient.refetchQueries({
           queryKey: ["me",'organzation'],
         });
-        console.log(currUser)
       },
     });
 
@@ -137,7 +146,7 @@ function OrganizationProfileEdit() {
   return (
     <>
     <div className="scrollable-content   flex flex-col  items-center w-full overflow-x-hidden overflow-y-auto ">
-      <div className="flex flex-col   py-3  border-b-[1px] border-b-[lgt-grey]  border-b-solid border-t-[1px] border-t-[lgt-grey]  border-t-solid  mt-4 gap-2 justify-center items-center">
+      <div className="flex flex-col  w-full py-3  border-b-[1px] border-b-[lgt-grey]  border-b-solid border-t-[1px] border-t-[lgt-grey]  border-t-solid  mt-4 gap-2 justify-center items-center">
         <div className="header text-[14px] ">Edit The Profile Pic here</div>
         <div className="flex ">
           {profilePicLoading||isLoading ? (

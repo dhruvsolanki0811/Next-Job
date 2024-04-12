@@ -7,6 +7,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../ui/Loader";
+import { signIn } from "next-auth/react";
 
 interface OrganizationFormData {
   name: string;
@@ -46,7 +47,8 @@ const addOrganization = async (data: OrganizationFormData) => {
       },
     });
     toast.info("Welldone you are now part of Jobcom community");
-    return response.data
+    const org=await response.data.organization
+    return org
   } catch (error) {
     if (isAxiosError(error) && error.response?.status == 403) {
       if (error.response?.data.error.name == "ZodError") {
@@ -93,10 +95,17 @@ function CompanyRegistrationForm() {
     onError(error, variables, context) {
       console.log(error)
     },
-    onSuccess: async () => {
-      console.log(error);
-      if (!error) {
+    onSuccess: async (data) => {
+      // console.log(error);
+      console.log(data)
+      signIn('credentials',{
+        email: data.email,
+        password: formState.password,
+        type: 'Organization',
+        redirect: false,  
+      })
         queryClient.invalidateQueries({ queryKey: ["all-organizations"] });
+        queryClient.invalidateQueries({ queryKey: ["org-for-section"] });
         setSelectedImagePreview(null);
         setFormState({
           name: "",
@@ -109,7 +118,7 @@ function CompanyRegistrationForm() {
           website: "",
           profilePic: null,
         });
-      }
+      
     },
   });
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

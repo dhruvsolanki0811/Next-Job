@@ -16,7 +16,7 @@ function Rightbar({ children }: { children: ReactNode }) {
             {status == "authenticated" && auth ? (
               <>
                 <div onClick={()=>router.push(`/profile/${auth.user.role.toLowerCase()}`)} className="flex items-center gap-[5px] relative">
-                  <div className="profile-pic-container h-[30px] min-w-[30px] relative">
+                  <div className="profile-pic-container h-[30px] min-w-[30px] relative flex items-center justify-center">
                     {auth.user?.image ? (
                       <Image
                         alt=""

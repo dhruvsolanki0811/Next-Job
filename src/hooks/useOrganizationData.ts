@@ -6,7 +6,7 @@ import { appendToBaseUrl } from "./hooks";
 import { useSession } from "next-auth/react";
 import { useFilterStore } from "@/store/filterStore";
 
-export const useFetchAllOrganizations = () => {
+export const useFetchAllOrganizations = (component?:string) => {
   const {filters}=useFilterStore()
 
   const fetchAllOrganizations = async (): Promise<Organization[]> => {
@@ -16,7 +16,7 @@ export const useFetchAllOrganizations = () => {
     return response.data.organizations;
   };
 
-  return useQuery({queryKey:["all-organizations"],queryFn: fetchAllOrganizations});
+  return useQuery({queryKey:[component?component:"all-organizations"],queryFn: fetchAllOrganizations});
 };
 
 
