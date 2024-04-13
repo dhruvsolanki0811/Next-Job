@@ -1,8 +1,9 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import React, {  useState } from "react";
 import { toast } from "react-toastify";
+import Loader from "../ui/Loader";
 
 function LoginBox() {
   const [userType, setUserType] = useState<"Jobseeker" | "Organization">(
@@ -11,6 +12,7 @@ function LoginBox() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [loading, setLoading]= useState(false)
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +26,7 @@ function LoginBox() {
       setPassword(value);
     }
   };
-
+  
   const handleLogin = async (e: React.FormEvent) => {
     // Implement your login logic here
     // You can use user and org email/password for authentication
@@ -33,7 +35,7 @@ function LoginBox() {
       toast.error("Please fill in all fields");
       return;
     }
-
+    setLoading(true);
     const signInData = await signIn("credentials", {
       email: email,
       password: password,
@@ -41,12 +43,16 @@ function LoginBox() {
       redirect: false,
     });
     if (signInData?.error) {
+      
       toast.error("Incorrect Details");
+      setLoading(false);
     } else {
       toast.success("Login Successful!")
       setPassword("");
       setEmail("");
+    
       router.push(userType=='Organization'?'/profile/organization':'/profile/jobseeker')
+      setLoading(false);
     }
   };
 
@@ -103,12 +109,14 @@ function LoginBox() {
         />
 
         <div className="login-btn-wrapper ">
-          <button
+          {loading?
+          <Loader size="20px"></Loader>
+          :<button
             type="submit"
             className="submit-btn rounded-full px-3 py-1 text-[14px] text-[white] hover:bg-green-600 bg-green-500  "
           >
             Login
-          </button>
+          </button>}
         </div>
 
         <div

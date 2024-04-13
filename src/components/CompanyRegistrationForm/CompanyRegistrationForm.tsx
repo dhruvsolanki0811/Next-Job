@@ -97,7 +97,6 @@ function CompanyRegistrationForm() {
     },
     onSuccess: async (data) => {
       // console.log(error);
-      console.log(data)
       signIn('credentials',{
         email: data.email,
         password: formState.password,
